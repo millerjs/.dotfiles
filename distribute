@@ -1,0 +1,48 @@
+#!/usr/bin/python
+
+import argparse
+import shutil
+import os
+
+basedir = os.path.dirname(os.path.realpath(__file__))
+
+config = {
+    '.bash_aliases': [
+        '~/.bash_aliases'
+    ],
+    '.bashrc': [
+        '~/.bashrc',
+        '~/.bash_profile'
+    ],
+    '.tmux.conf': [
+        '~/.tmux.conf'
+    ],
+}
+
+
+def try_dist_file(f, src_path, dst_path):
+    try:
+        f(src_path, dst_path)
+    except Exception, msg:
+        print('\tunable to distribute: ' + str(msg))
+
+
+def distribute_files(f):
+    for src, dst_list in config.items():
+        for dst in dst_list:
+            src_path = os.path.join(basedir, src)
+            dst_path = os.path.expanduser(dst)
+            print('{0} -> {1}'.format(src_path, dst_path))
+            try_dist_file(f, src_path, dst_path)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Destribute .dotfiles')
+    parser.add_argument('--copy', action='store_true')
+    parser.set_defaults(copy=False)
+    copy = parser.parse_args().copy
+
+    if copy:
+        distribute_files(shutil.copy2)
+    else:
+        distribute_files(os.symlink)
