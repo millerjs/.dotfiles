@@ -91,7 +91,7 @@ function prompt_cmd(){
     PS1="${PS1}$(header br $(try_get_git)) "
     PS1="${PS1}$(header cd \\w) "
     PS1="${PS1}\n"
-    PS1="${PS1}${BOLD}${GREEN}\u@\h"
+    PS1="${PS1}${GREEN}${BOLD}\u${OFF}${BLUE}@${GREEN}\h"
     PS1="${PS1}${BOLD}${BLUE} › ${OFF}"
 }
 
