@@ -112,8 +112,8 @@ function prompt_cmd(){
 
     PS1="${PS1}${HDR}${line:${#HDR}}"
     PS1="${PS1}${OFF}${GREEN}\u${BOLD}${GREEN}@\h"
-    PS1="${PS1}${BOLD}${BLUE} \\W"
-    PS1="${PS1} ❯ ${OFF}"
+    PS1="${PS1}${BOLD}${BLUE}(\\W)"
+    PS1="${PS1}${GREEN}$ ${OFF}"
 }
 
 PROMPT_COMMAND=prompt_cmd
