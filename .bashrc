@@ -59,40 +59,61 @@ TOP="⎾"
 MID="⎟"
 BOT="⎿"
 
-function try_get_git() {
 
+function try_get_git(){
+    none=""
     if [ $(which git 1>/dev/null 2>/dev/null; echo $?) -ne '0' ]; then
-        echo ''
+        echo ${none}
         return
     fi
     if [ $(git branch 1>/dev/null 2>/dev/null; echo $?) -ne '0' ]; then
-        echo ''
+        echo ${none}
         return
     fi
 
-    repo=$(git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
+    status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
-    if [ $? -eq '0' ]; then
-        echo "${branch}"
+    if ! git diff-files --quiet --ignore-submodules --; then
+        echo "${PURPLE}[br:${BOLD}${RED}${branch}${OFF}${PURPLE}] "
     else
-        echo ''
+        echo "${PURPLE}[br:${GREEN}${branch}${OFF}${PURPLE}] "
     fi
 }
 
+function file_count(){
+    ls | wc -l | tr -d ' '
+}
+
+function return_code(){
+    echo "\$?"
+}
+
+function current_dir(){
+    echo "\\w/"
+}
+
+function tmux_name(){
+    tmux display-message -p "#S"
+}
+
 function header() {
-    echo "${PURPLE}[$1:${GREEN}$2${PURPLE}]"
+    echo "${PURPLE}[$1:${GREEN}$2${PURPLE}] "
 }
 
 function prompt_cmd(){
-    PS1="\n"
-    PS1="${PS1}"
-    PS1="${PS1}$(header rc \$?) "
-    PS1="${PS1}$(header br $(try_get_git)) "
-    PS1="${PS1}$(header cd \\w) "
-    PS1="${PS1}\n"
-    PS1="${PS1}${GREEN}${BOLD}\u${BLUE}@\h"
-    PS1="${PS1}${BOLD}${BLUE} › ${OFF}"
+    PS1=""
+    HDR="\n"
+    HDR="${HDR}"
+    HDR="${HDR}$(header rc $(return_code))"
+    HDR="${HDR}$(try_get_git)"
+    HDR="${HDR}$(header cd $(current_dir))"
+    HDR="${HDR}\n"
+
+    PS1="${PS1}${HDR}${line:${#HDR}}"
+    PS1="${PS1}${OFF}${GREEN}\u${BOLD}${GREEN}@\h"
+    PS1="${PS1}${BOLD}${BLUE} \\W"
+    PS1="${PS1}› ${OFF}"
 }
 
 PROMPT_COMMAND=prompt_cmd
