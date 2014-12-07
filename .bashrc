@@ -1,5 +1,7 @@
 #Fix PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.scripts:/opt/local/bin/:/usr/texbin:/usr/local/go/bin:/usr/local/Cellar/
+
+export CLICOLOR=1
 
 export PATH
 export SVN_EDITOR="emacs -nw"
@@ -13,16 +15,13 @@ export SVN_EDITOR="emacs -nw"
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-# HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-export HISTTIMEFORMAT="%D %T "
-export HISTIGNORE="&:ls:exit"
-shopt -s histappend
-HISTSIZE=1000000
+HISTSIZE=100000
 HISTFILESIZE=2000000
 
 # check the window size after each command and, if necessary,
@@ -36,55 +35,81 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
+export PROMPT_DIRTRIM=3
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color) color_prompt=yes;;
-esac
+EXITSTATUS="$?"
+BOLD="\[\033[1m\]"
+RED="\[\033[1;31m\]"
+GREEN="\[\033[32m\]"
+BLUE="\[\e[34;1m\]"
+OFF="\[\033[m\]"
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+BLACK="\[\033[30m\]"
+BLUE="\[\033[34m\]"
+GREEN="\[\033[32m\]"
+CYAN="\[\033[36m\]"
+RED="\[\033[31m\]"
+PURPLE="\[\033[35m\]"
+BROWN="\[\033[33m\]"
+YELLOW="\[\033[33m\]"
+WHITE="\[\033[37m\]"
 
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=no
+BORDER="${OFF}${GREEN}"
+TOP="⎾"
+MID="⎟"
+BOT="⎿"
+
+function try_get_git() {
+
+    if [ $(which git 1>/dev/null 2>/dev/null; echo $?) -ne '0' ]; then
+        echo ''
+        return
     fi
+    if [ $(git branch 1>/dev/null 2>/dev/null; echo $?) -ne '0' ]; then
+        echo ''
+        return
+    fi
+
+    repo=$(git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
+    branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
+
+    if [ $? -eq '0' ]; then
+        echo "${branch}"
+    else
+        echo ''
+    fi
+}
+
+function header() {
+    echo "${PURPLE}[$1:${GREEN}$2${PURPLE}]"
+}
+
+function prompt_cmd(){
+    PS1="\n"
+    PS1="${PS1}"
+    PS1="${PS1}$(header rc \$?) "
+    PS1="${PS1}$(header br $(try_get_git)) "
+    PS1="${PS1}$(header cd \\w) "
+    PS1="${PS1}\n"
+    PS1="${PS1}${BOLD}${GREEN}\u@\h"
+    PS1="${PS1}${BOLD}${BLUE} › ${OFF}"
+}
+
+PROMPT_COMMAND=prompt_cmd
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
-color_prompt=yes
-if [ "$color_prompt" = yes ]; then
-    PS1='\n
-${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[32m\]\$ \[\033[00m\]'
-    p=\w
-    ls=`ls | wc -l`
-
-else
-    PS1='\n${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
-esac
-
-
-# ======== Alias definitions ========
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -96,18 +121,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-
-# ======== Shell options ========
-shopt -s cdspell
-shopt -s dirspell
-
-bind 'set completion-ignore-case on'
-
-# ======== Exports ========
 export HISTIGNORE="&:ls:ls:cd"
-export PROMPT_COMMAND='RETRN_VAL=$?;logger -p local6.debug "$(whoami) [$$]: $(history 1 | sed "s/^[ ]*[0-9]\+[ ]*//" ) [$RETRN_VAL]"'
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-# ======== Colors ========
 export PYTHONIOENCODING=utf-8
 export TERM=xterm-256color
+shopt -s cdspell
+set cd options
