@@ -70,14 +70,14 @@ function try_get_git(){
         echo ${none}
         return
     fi
-
+    repo=$(git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
     if ! git diff-files --quiet --ignore-submodules --; then
-        echo "${PURPLE}[br:${BOLD}${RED}${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[br:${GREEN}${repo}/${BOLD}${RED}${branch}${OFF}${PURPLE}] "
     else
-        echo "${PURPLE}[br:${GREEN}${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[br:${GREEN}${repo}/${branch}${OFF}${PURPLE}] "
     fi
 }
 
