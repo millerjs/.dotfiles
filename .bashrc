@@ -5,6 +5,7 @@ export CLICOLOR=1
 
 export PATH
 export SVN_EDITOR="emacs -nw"
+export GIT_EDITOR="emacs -nw -q"
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
