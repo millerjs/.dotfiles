@@ -101,6 +101,14 @@ function header() {
     echo "${PURPLE}[$1:${GREEN}$2${PURPLE}] "
 }
 
+function get_hostname(){
+    if ! which scutil >/dev/null 2>/dev/null; then
+        echo $(hostname)
+    else
+        echo $(scutil --get ComputerName)
+    fi
+}
+
 function prompt_cmd(){
     PS1=""
     HDR="\n\n"
@@ -110,8 +118,8 @@ function prompt_cmd(){
     HDR="${HDR}$(header cd $(current_dir))"
     HDR="${HDR}\n"
 
-    PS1="${PS1}${HDR}${line:${#HDR}}"
-    PS1="${PS1}${OFF}${GREEN}\u${BOLD}${GREEN}@\h"
+    PS1="${PS1}${HDR}"
+    PS1="${PS1}${OFF}${GREEN}\u${BOLD}${GREEN}@$(get_hostname)"
     PS1="${PS1}${BOLD}${BLUE}(\\W)"
     PS1="${PS1}${GREEN}$ ${OFF}"
 }
