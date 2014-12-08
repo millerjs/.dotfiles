@@ -104,7 +104,7 @@ function header() {
 
 function get_hostname(){
     if ! which scutil >/dev/null 2>/dev/null; then
-        echo $(hostname)
+        echo $(hostname -s)
     else
         echo $(scutil --get ComputerName)
     fi
