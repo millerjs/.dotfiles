@@ -88,7 +88,7 @@ try_get_git()
     GIT_SYMBOL='g:'
     BRED="${BOLD}${RED}"
     if ! git diff-files --quiet --ignore-submodules --; then
-        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules; then
+        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules 2>/dev/null; then
             # uncommited, unpushed changes
             echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${branch}${OFF}${PURPLE}]"
         else
@@ -96,7 +96,7 @@ try_get_git()
             echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}${BRED}/${branch}${OFF}${PURPLE}]"
         fi
     else
-        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules; then
+        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules 2>/dev/null; then
             # nothing to commit, unpushed commits
             echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${OFF}${GREEN}${branch}${OFF}${PURPLE}]"
         else
