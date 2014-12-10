@@ -85,11 +85,20 @@ try_get_git()
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
-    GIT_SYMBOL='※ '
+    BRED="${BOLD}${RED}"
+    GIT_SYMBOL='g:'
     if ! git diff-files --quiet --ignore-submodules --; then
-        echo "${PURPLE}[${RED}${GIT_SYMBOL}${GREEN}${repo}${BOLD}${RED}/${branch}${OFF}${PURPLE}]"
+        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules; then
+            echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${branch}${OFF}${PURPLE}]"
+        else
+            echo "${PURPLE}[${GREEN}${GIT_SYMBOL}${GREEN}${repo}${BRED}/${branch}${OFF}${PURPLE}]"
+        fi
     else
-        echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}/${GREEN}${branch}${OFF}${PURPLE}]"
+        if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules; then
+            echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${OFF}${GREEN}${branch}${OFF}${PURPLE}]"
+        else
+            echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}${OFF}${GREEN}/${branch}${OFF}${PURPLE}]"
+        fi
     fi
 }
 
