@@ -76,9 +76,9 @@ function try_get_git(){
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
     if ! git diff-files --quiet --ignore-submodules --; then
-        echo "${PURPLE}[br:${GREEN}${repo}/${BOLD}${RED}${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[br:${GREEN}${BOLD}${RED}${branch}${OFF}${PURPLE}] "
     else
-        echo "${PURPLE}[br:${GREEN}${repo}/${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[br:${GREEN}${branch}${OFF}${PURPLE}] "
     fi
 }
 
@@ -110,11 +110,21 @@ function get_hostname(){
     fi
 }
 
+function try_virtual_env(){
+    if [[ $VIRTUAL_ENV != "" ]]
+    then
+        echo "${PURPLE}[vn:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}] "
+    else
+        echo ""
+    fi
+}
+
 function prompt_cmd(){
     PS1=""
     HDR="\n\n"
     HDR="${HDR}"
     HDR="${HDR}$(header rc $(return_code))"
+    HDR="${HDR}$(try_virtual_env)"
     HDR="${HDR}$(try_get_git)"
     HDR="${HDR}$(header cd $(current_dir))"
     HDR="${HDR}\n"
