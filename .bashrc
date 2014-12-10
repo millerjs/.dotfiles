@@ -93,15 +93,15 @@ try_get_git()
             echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${branch}${OFF}${PURPLE}]"
         else
             # uncommited changes
-            echo "${PURPLE}[${GREEN}${GIT_SYMBOL}${GREEN}${repo}${BRED}/${branch}${OFF}${PURPLE}]"
+            echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}${BRED}/${branch}${OFF}${PURPLE}]"
         fi
     else
         if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules; then
             # nothing to commit, unpushed commits
-            echo "${PURPLE}[${OFF}${GIT_SYMBOL}${BRED}${repo}/${OFF}${GREEN}${branch}${OFF}${PURPLE}]"
+            echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${OFF}${GREEN}${branch}${OFF}${PURPLE}]"
         else
             # clean
-            echo "${PURPLE}[${OFF}${GIT_SYMBOL}${GREEN}${repo}${OFF}${GREEN}/${branch}${OFF}${PURPLE}]"
+            echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}${OFF}${GREEN}/${branch}${OFF}${PURPLE}]"
         fi
     fi
 }
