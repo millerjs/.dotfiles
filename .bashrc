@@ -55,13 +55,23 @@ BROWN="\[\033[33m\]"
 YELLOW="\[\033[33m\]"
 WHITE="\[\033[37m\]"
 
-BORDER="${OFF}${GREEN}"
-TOP="⎾"
-MID="⎟"
-BOT="⎿"
+# Terminal OK symbols
+STAR1='※'
 
+# Format status message for bash PS1
+header()
+{
+    if [ "$2" == "" ]; then
+        echo "${PURPLE}[${GREEN}$1${PURPLE}]"
+    else
+        echo "${PURPLE}[$1${GREEN}$2${PURPLE}]"
+    fi
+}
 
-function try_get_git(){
+# Get git status for PS1 header
+try_get_git()
+{
+
     none=""
     if [ $(which git 1>/dev/null 2>/dev/null; echo $?) -ne '0' ]; then
         echo ${none}
@@ -75,34 +85,35 @@ function try_get_git(){
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
+    GIT_SYMBOL='※ '
     if ! git diff-files --quiet --ignore-submodules --; then
-        echo "${PURPLE}[br:${GREEN}${BOLD}${RED}${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[${RED}${GIT_SYMBOL}${GREEN}${repo}${BOLD}${RED}/${branch}${OFF}${PURPLE}]"
     else
-        echo "${PURPLE}[br:${GREEN}${branch}${OFF}${PURPLE}] "
+        echo "${PURPLE}[${GIT_SYMBOL}${GREEN}${repo}/${GREEN}${branch}${OFF}${PURPLE}]"
     fi
 }
 
-function file_count(){
-    ls | wc -l | tr -d ' '
-}
-
-function return_code(){
+# Format the return code for PS1
+return_code()
+{
     echo "\$?"
 }
 
-function current_dir(){
-    echo "\\w/"
+# Format the current directory for PS1
+current_dir()
+{
+    CWD="\\w/"
+    hdr=$(echo -e "${HDR}[${CWD}]")
+    if [ ${#hdr} -gt $(expr ${COLUMNS} + 50) ];
+    then
+        echo ""
+    fi
+    echo "$(header ${CWD})"
 }
 
-function tmux_name(){
-    tmux display-message -p "#S"
-}
-
-function header() {
-    echo "${PURPLE}[$1:${GREEN}$2${PURPLE}] "
-}
-
-function get_hostname(){
+# Format the hostname directory for PS1
+get_hostname()
+{
     if ! which scutil >/dev/null 2>/dev/null; then
         echo $(hostname -s)
     else
@@ -110,27 +121,39 @@ function get_hostname(){
     fi
 }
 
-function try_virtual_env(){
+# Format any venv name directory for PS1
+try_virtual_env()
+{
     if [[ $VIRTUAL_ENV != "" ]]
     then
-        echo "${PURPLE}[vn:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}] "
+        echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
     else
         echo ""
     fi
 }
 
-function prompt_cmd(){
+try_get_user()
+{
+    case $(date|cut -f1 -d' ') in
+        Mon) echo '\u(-＿- )ノ';;
+        Fri) echo '\u(/◔ ◡ ◔)/';;
+        *)   echo '\u';;
+    esac
+}
+
+prompt_cmd() {
     PS1=""
     HDR="\n\n"
     HDR="${HDR}"
-    HDR="${HDR}$(header rc $(return_code))"
+    HDR="${HDR}$(header $(return_code))"
     HDR="${HDR}$(try_virtual_env)"
     HDR="${HDR}$(try_get_git)"
-    HDR="${HDR}$(header cd $(current_dir))"
+    HDR="${HDR}$(current_dir)"
     HDR="${HDR}\n"
 
     PS1="${PS1}${HDR}"
-    PS1="${PS1}${OFF}${GREEN}\u${BOLD}${GREEN}@$(get_hostname)"
+    PS1="${PS1}${OFF}${GREEN}$(try_get_user)"
+    PS1="${PS1}${OFF}${BOLD}${GREEN}@$(get_hostname)"
     PS1="${PS1}${BOLD}${BLUE}(\\W)"
     PS1="${PS1}${GREEN}$ ${OFF}"
 }
@@ -151,7 +174,15 @@ fi
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    . ${HOME}/.bash_aliases
+fi
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_functions ]; then
+    source ${HOME}/.bash_functions
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -161,8 +192,17 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+
+
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 export TERM=xterm-256color
 shopt -s cdspell
 set cd options
+
+# Virtual environment
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    export WORKON_HOME=~/.venvs
+    source /usr/local/bin/virtualenvwrapper.sh
+    alias workoff='deactivate'
+fi

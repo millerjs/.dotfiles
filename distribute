@@ -1,39 +1,36 @@
 #!/usr/bin/python
-
 import argparse
 import shutil
 import os
 
 basedir = os.path.dirname(os.path.realpath(__file__))
 
-config = {
-    '.bash_aliases': [
-        '~/.bash_aliases'
-    ],
-    '.bashrc': [
-        '~/.bashrc',
-        '~/.bash_profile'
-    ],
-    '.tmux.conf': [
-        '~/.tmux.conf'
-    ],
+mapping = {
+    '.tmux.conf': '~/.tmux.conf',
+    '.gitconfig': '~/.gitconfig',
+    '.bash_aliases': '~/.bash_aliases',
+    '.bash_functions': '~/.bash_functions',
+    '.bashrc': ['~/.bashrc', '~/.bash_profile'],
 }
 
 
-def try_dist_file(f, src_path, dst_path):
+def try_dist_file(f, src, dst):
+    src_path = os.path.join(basedir, src)
+    dst_path = os.path.expanduser(dst)
+    print('{0} -> {1}'.format(src_path, dst_path))
     try:
         f(src_path, dst_path)
     except Exception, msg:
-        print('\tunable to distribute: ' + str(msg))
+        print('\twarning: unable to distribute: ' + str(msg))
 
 
 def distribute_files(f):
-    for src, dst_list in config.items():
-        for dst in dst_list:
-            src_path = os.path.join(basedir, src)
-            dst_path = os.path.expanduser(dst)
-            print('{0} -> {1}'.format(src_path, dst_path))
-            try_dist_file(f, src_path, dst_path)
+    for src, dst in mapping.items():
+        if isinstance(dst, list):
+            for d in dst:
+                try_dist_file(f, src, d)
+        else:
+            try_dist_file(f, src, dst)
 
 
 if __name__ == '__main__':

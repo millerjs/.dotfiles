@@ -17,16 +17,22 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias lah='ls -lah'
-
-alias ew='emacs -nw'
-alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
 alias sl='ls'
 
 alias nd="pushd +1"
 alias push="pushd"
 alias pop="popd"
 
+# tmux
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tl='tmux list-sessions'
 alias lt='tmux list-sessions'
+
+# emacs
+alias ew='emacs -nw'
+alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
+
+# git
+alias gd='git diff'
+alias gs='git status'
