@@ -1,0 +1,7 @@
+[user]
+	name = Joshua Miller
+	email = jshuasmiller@gmail.com
+[core]
+	editor = emacs
+[merge]
+	tool = colordiff
