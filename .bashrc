@@ -7,6 +7,10 @@ export PATH
 export SVN_EDITOR="emacs -nw"
 export GIT_EDITOR="emacs -nw -q"
 
+if dpkg -l ubuntu-desktop 2>/dev/null >/dev/null; then
+    _UBUNTU_DESKTOP=true
+fi
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -218,4 +222,8 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
     source /usr/local/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
+fi
+
+if [ ${_UBUNTU_DESKTOP} = true ]; then
+    setxkbmap -layout us -option ctrl:nocaps
 fi
