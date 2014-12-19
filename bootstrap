@@ -46,7 +46,7 @@ if [ ${_UBUNTU_DESKTOP} = true ]; then
     sudo -E apt-get -y install compizconfig-settings-manager
     dconf write /org/compiz/profiles/unity/plugins/core/hsize 3
     dconf write /org/compiz/profiles/unity/plugins/core/vsize 6
-    dconf write /org/compiz/profiles/unity/plugins/wall/slide-duration 0.25
+    dconf write /org/compiz/profiles/unity/plugins/wall/slide-duration 0.0
     dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-left "['<Control>Left']"
     dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-right "['<Control>Right']"
     dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-up "['<Control>Up']"
