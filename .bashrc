@@ -152,8 +152,8 @@ try_virtual_env()
 try_get_user()
 {
     case $(date|cut -f1 -d' ') in
-        Mon) echo '\u(-＿- )ノ';;
-        Fri) echo '\u(/◔ ◡ ◔)/';;
+        # Mon) echo '\u(-＿- )ノ';;
+        # Fri) echo '\u(/◔ ◡ ◔)/';;
         *)   echo '\u';;
     esac
 }

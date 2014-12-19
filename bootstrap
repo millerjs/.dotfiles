@@ -1,0 +1,60 @@
+#!/bin/bash
+
+DOT_FILES=https://github.com/millerjs/.dotfiles.git
+EMACS=https://github.com/millerjs/.emacs.d.git
+
+if uname -arv | grep Ubuntu >/dev/null; then
+    echo 'Installing as ubuntu ...'
+    _UBUNTU=true
+    if dpkg -l ubuntu-desktop >/dev/null; then
+        echo 'Installing as ubuntu desktop ...'
+        _UBUNTU_DESKTOP=true
+    fi
+fi
+
+if [ ${_UBUNTU} = true ]; then
+    sudo -E apt-get update
+    sudo -E apt-get -y install git python-dev tmux
+fi
+
+prompt_rm() {
+  if [ -f "$1" ]; then
+    read -p "File exists [$1], remove? " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      rm -rf "$1"
+    fi
+    echo ''
+  fi
+}
+
+echo 'Cloning config files ...'
+git clone ${DOT_FILES} ~/.dotfiles
+prompt_rm ~/.bashrc
+prompt_rm ~/.bash_profile
+prompt_rm ~/.tmux.conf
+python ~/.dotfiles/distribute
+
+echo 'Installing emacs ...'
+prompt_rm ~/.emacs.d
+git clone ${EMACS} ~/.emacs.d
+if [ ${_UBUNTU} = true ]; then
+    sudo -E apt-get -y install emacs
+fi
+
+if [ ${_UBUNTU_DESKTOP} = true ]; then
+    echo 'Configuring Ubuntu Desktop ...'
+    sudo -E apt-get -y install compizconfig-settings-manager
+    dconf write /org/compiz/profiles/unity/plugins/core/hsize 3
+    dconf write /org/compiz/profiles/unity/plugins/core/vsize 6
+    dconf write /org/compiz/profiles/unity/plugins/wall/slide-duration 0.25
+    dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-left "['<Control>Left']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-right "['<Control>Right']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-up "['<Control>Up']"
+    dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-down "['<Control>Down']"
+    dconf write /org/gnome/desktop/wm/keybindings/move-to-workspace-left "['<Shift><Control>Left']"
+    dconf write /org/gnome/desktop/wm/keybindings/move-to-workspace-right "['<Shift><Control>Right']"
+    dconf write /org/gnome/desktop/wm/keybindings/move-to-workspace-up "['<Shift><Control>Up']"
+    dconf write /org/gnome/desktop/wm/keybindings/move-to-workspace-down "['<Shift><Control>Down']"
+    dconf write /org/compiz/profiles/unity/plugins/unityshell/launcher-capture-mouse false
+    dconf write /org/compiz/profiles/unity/plugins/unityshell/launcher-hide-mode 1
+fi
