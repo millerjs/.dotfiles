@@ -139,7 +139,7 @@ get_hostname()
 # Format any venv name directory for PS1
 try_virtual_env()
 {
-    if [ $VIRTUAL_ENV != "" ]
+    if [ "$VIRTUAL_ENV" != "" ]
     then
         echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
     else
@@ -218,6 +218,3 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     alias workoff='deactivate'
 fi
 
-if [ "${_UBUNTU_DESKTOP}" = true ]; then
-    setxkbmap -layout us -option ctrl:nocaps
-fi
