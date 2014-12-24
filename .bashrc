@@ -40,8 +40,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export PROMPT_DIRTRIM=3
-
 EXITSTATUS="$?"
 BOLD="\[\033[1m\]"
 RED="\[\033[1;31m\]"
@@ -65,7 +63,7 @@ STAR1='※'
 # Format status message for bash PS1
 header()
 {
-    if [ "$2" == "" ]; then
+    if [ "$2" = "" ]; then
         echo "${PURPLE}[${GREEN}$1${PURPLE}]"
     else
         echo "${PURPLE}[$1${GREEN}$2${PURPLE}]"
@@ -141,7 +139,7 @@ get_hostname()
 # Format any venv name directory for PS1
 try_virtual_env()
 {
-    if [[ $VIRTUAL_ENV != "" ]]
+    if [ $VIRTUAL_ENV != "" ]
     then
         echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
     else
@@ -151,11 +149,7 @@ try_virtual_env()
 
 try_get_user()
 {
-    case $(date|cut -f1 -d' ') in
-        # Mon) echo '\u(-＿- )ノ';;
-        # Fri) echo '\u(/◔ ◡ ◔)/';;
-        *)   echo '\u';;
-    esac
+    echo '\u'
 }
 
 prompt_cmd() {
@@ -224,6 +218,6 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     alias workoff='deactivate'
 fi
 
-if [ ${_UBUNTU_DESKTOP} = true ]; then
+if [ "${_UBUNTU_DESKTOP}" = true ]; then
     setxkbmap -layout us -option ctrl:nocaps
 fi
