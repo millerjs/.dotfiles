@@ -36,3 +36,17 @@ alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
 # git
 alias gd='git diff'
 alias gs='git status'
+
+pushcd () {
+    if [ "" = "$1" ]; then
+        cd
+    else
+        pushd $1 > /dev/null
+    fi
+}
+
+# navigation
+alias p='pushcd'
+alias pd='popd > /dev/null'
+alias r='pushd +1'
+alias dirs='dirs -v'
