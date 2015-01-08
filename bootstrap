@@ -1,5 +1,7 @@
 #!/bin/bash
+set -x
 
+DOT_FILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOT_FILES=https://github.com/millerjs/.dotfiles.git
 EMACS=https://github.com/millerjs/.emacs.d.git
 
@@ -12,10 +14,28 @@ if uname -arv | grep Ubuntu >/dev/null; then
     fi
 fi
 
-if [ ${_UBUNTU} = true ]; then
-    sudo -E apt-get update
-    sudo -E apt-get -y install git python-dev tmux
+if uname -arv | grep -i darwin >/dev/null; then
+    echo 'Installing as OSX ...'
+    _OSX=true
 fi
+
+if [ "${_UBUNTU}" = true ]; then
+    sudo -E apt-get update
+    sudo -E apt-get -y install git python-dev tmux python-pip
+fi
+
+setup_python() {
+    if [ "${_UBUNTU}" = true ]; then
+        sudo pip install virtualenvwrapper
+    fi
+    source /usr/local/bin/virtualenvwrapper.sh
+    if [ ! -f $WORKON_HOME/$USER ]; then
+        mkvirtualenv $USER
+    fi
+    workon $USER
+    cat $DOT_FILES_DIR/pip_packages | xargs pip install
+}
+setup_python
 
 prompt_rm() {
   if [ -f "$1" ]; then
@@ -37,11 +57,11 @@ python ~/.dotfiles/distribute
 echo 'Installing emacs ...'
 prompt_rm ~/.emacs.d
 git clone ${EMACS} ~/.emacs.d
-if [ ${_UBUNTU} = true ]; then
+if [ "${_UBUNTU}" = true ]; then
     sudo -E apt-get -y install emacs
 fi
 
-if [ ${_UBUNTU_DESKTOP} = true ]; then
+if [ "${_UBUNTU_DESKTOP}" = true ]; then
     echo 'Configuring Ubuntu Desktop ...'
     sudo -E apt-get -y install compizconfig-settings-manager
     dconf write /org/compiz/profiles/unity/plugins/core/hsize 3

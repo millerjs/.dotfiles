@@ -37,16 +37,18 @@ alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
 alias gd='git diff'
 alias gs='git status'
 
-pushcd () {
-    if [ "" = "$1" ]; then
-        cd
-    else
-        pushd $1 > /dev/null
-    fi
-}
-
 # navigation
 alias p='pushcd'
 alias pd='popd > /dev/null'
 alias r='pushd +1'
 alias dirs='dirs -v'
+alias u='up'
+
+# other
+alias x='extract'
+alias im='imcat'
+
+# python
+alias uv='workon $USER 2>/dev/null'
+alias pyl='py -l'
+alias mkv='mkvirtualenv'

@@ -2,7 +2,6 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.scripts:/opt/local/bin/:/usr/texbin:/usr/local/go/bin:/usr/local/Cellar/
 
 export CLICOLOR=1
-
 export PATH
 export SVN_EDITOR="emacs -nw"
 export GIT_EDITOR="emacs -nw -q"
@@ -117,7 +116,7 @@ return_code()
 # Format the current directory for PS1
 current_dir()
 {
-    CWD="\\w/"
+    CWD="$(pwd -L)"
     hdr=$(echo -e "${HDR}[${CWD}]")
     if [ ${#hdr} -gt $(expr ${COLUMNS} + 50) ];
     then
@@ -216,5 +215,6 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
     source /usr/local/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
+    # workon user's default venv
+    uv
 fi
-

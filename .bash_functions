@@ -1,5 +1,26 @@
 #!/bin/bash
 
+pyplt() {
+    OUTPUT="output.png"
+    py -c """
+import matplotlib
+matplotlib.use('Agg');
+from matplotlib import pyplot as plt;
+""" -C "plt.savefig(\"${OUTPUT}\")" "$@"
+    echo "Saved to ${OUTPUT}"
+    if which imcat > /dev/null; then
+        convert ${OUTPUT} -negate - | imcat
+    fi
+}
+
+plt() {
+    if [ "$#" -eq "0" ]; then
+        pyplt -l 'plt.plot(l)'
+    else
+        pyplt "plt.plot($1)"
+    fi
+}
+
 # Stolen from rkirti, kirtibr@gmail.com
 extract()
 {
@@ -39,7 +60,7 @@ flip_table()
 # print_image filename inline base64contents
 #   filename: Filename to convey to client
 function print_image() {
-    printf "\ePtmux;\e\e]1337;File=inline=1;$2:$1\a\e\\"
+    printf "\e]1337;File=inline=1;$2:$1\a\e\\"
 }
 
 imcat () {
@@ -61,5 +82,26 @@ imcat () {
             echo "imcat: $fn: No such file or directory"
             return
         fi
+    done
+}
+
+
+# ======== Navigation ========
+
+pushcd () {
+    if [ "" = "$1" ]; then
+        cd
+    else
+        pushd $1 > /dev/null
+    fi
+}
+
+up () {
+    if [ "$#" == 0 ]; then
+        cd ../
+        return
+    fi
+    for i in `seq 1 $1`; do
+        cd ../
     done
 }
