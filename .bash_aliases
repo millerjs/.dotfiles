@@ -52,3 +52,8 @@ alias im='imcat'
 alias uv='workon $USER 2>/dev/null'
 alias pyl='py -l'
 alias mkv='mkvirtualenv'
+
+# external
+alias cal="gcalcli $(cat ~/.gcalcli_calendars)"
+alias today="cal agenda $(date +%R) 11:59pm"
+alias q='gcalcli quick'
