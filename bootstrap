@@ -4,6 +4,7 @@ set -x
 DOT_FILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOT_FILES=https://github.com/millerjs/.dotfiles.git
 EMACS=https://github.com/millerjs/.emacs.d.git
+APT_PACKAGES="git python-dev tmux python-pip libpng3 libpng-dev libjpeg8-dev libfreetype6-dev libfreetype6 libxft-dev"
 
 if uname -arv | grep Ubuntu >/dev/null; then
     echo 'Installing as ubuntu ...'
@@ -21,7 +22,7 @@ fi
 
 if [ "${_UBUNTU}" = true ]; then
     sudo -E apt-get update
-    sudo -E apt-get -y install git python-dev tmux python-pip
+    sudo -E apt-get -y install ${APT_PACKAGES}
 fi
 
 setup_python() {
