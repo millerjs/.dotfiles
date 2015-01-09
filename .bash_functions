@@ -55,7 +55,20 @@ flip_table()
     echo -e "\n(╯°□°）╯︵ ┻━┻ "
 }
 
-
+download () {
+    for fn in "$@"
+    do
+        if [ -r "$fn" ] ; then
+            printf '\033]1337;File=name='`echo -n "$fn" | base64`";"
+            wc -c "$fn" | awk '{printf "size=%d",$1}'
+            printf ":"
+            base64 < "$fn"
+            printf '\a'
+        else
+            echo File $fn does not exist or is not readable.
+        fi
+    done
+}
 
 # print_image filename inline base64contents
 #   filename: Filename to convey to client
@@ -104,4 +117,14 @@ up () {
     for i in `seq 1 $1`; do
         cd ../
     done
+}
+
+
+# ======== Google Calendar ========
+cal () {
+    if [ -f ~/.gcalcli_calendars ]; then
+        gcalcli $(cat ~/.gcalcli_calendars)
+    else
+        gcalcli
+    fi
 }
