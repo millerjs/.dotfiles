@@ -52,6 +52,7 @@ alias im='imcat'
 alias uv='workon $USER 2>/dev/null'
 alias pyl='py -l'
 alias mkv='mkvirtualenv'
+alias wo='workon'
 
 # gcal
 alias today="cal agenda $(date +%R) 11:59pm"
