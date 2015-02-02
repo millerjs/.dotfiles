@@ -27,7 +27,7 @@ fi
 
 setup_python() {
     if [ "${_UBUNTU}" = true ]; then
-        sudo pip install virtualenvwrapper
+        sudo -E pip install virtualenvwrapper
     fi
     source /usr/local/bin/virtualenvwrapper.sh
     if [ ! -f $WORKON_HOME/$USER ]; then
