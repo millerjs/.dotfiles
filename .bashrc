@@ -218,3 +218,7 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     # workon user's default venv
     uv
 fi
+
+if [ -f ${HOME}/.local_bashrc ]; then
+    source ${HOME}/.local_bashrc
+fi
