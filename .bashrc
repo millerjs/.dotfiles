@@ -108,10 +108,9 @@ try_get_git()
 }
 
 # Format the return code for PS1
-return_code()
-{
-    echo "\$?"
-}
+return_code="""
+if [ \$? = 0 ]; then echo '';
+else echo $(header ${RED}err: \$?); fi"""
 
 # Format the current directory for PS1
 current_dir()
@@ -155,7 +154,7 @@ prompt_cmd() {
     PS1=""
     HDR="\n\n"
     HDR="${HDR}"
-    HDR="${HDR}$(header $(return_code))"
+    HDR="${HDR}\$(${return_code})"
     HDR="${HDR}$(try_virtual_env)"
     HDR="${HDR}$(try_get_git)"
     HDR="${HDR}$(current_dir)"
