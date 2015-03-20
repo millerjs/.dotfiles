@@ -117,7 +117,7 @@ current_dir()
 {
     CWD="$(pwd -L)"
     hdr=$(echo -e "${HDR}[${CWD}]")
-    if [ ${#hdr} -gt $(expr ${COLUMNS} + 100) ];
+    if [ ${#hdr} -gt $(expr ${COLUMNS} + 150) ];
     then
         echo ""
     fi
