@@ -1,6 +1,6 @@
 #!/bin/bash
 
-f [[ $# -eq 0 ]] ; then
+if [[ $# -eq 0 ]]; then
     echo 'specify user'
     exit 0
 fi
