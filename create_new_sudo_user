@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]; then
+    echo 'specify user'
+    exit 0
+fi
+
+nuser=$1;
+sudo useradd ${nuser}
+sudo adduser ${nuser} sudo
+sudo su root -c "echo \"${nuser} ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/${nuser}"
+sudo mkdir /home/${nuser}
+sudo mkdir /home/${nuser}/.ssh
+sudo touch /home/${nuser}/.ssh/authorized_keys
+sudo cp ~/.ssh/authorized_keys /home/${nuser}/.ssh/authorized_keys
+sudo chsh -s /bin/bash ${nuser}
+sudo chown -R ${nuser} /home/${nuser}
