@@ -36,6 +36,7 @@ alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
 # git
 alias gd='git diff'
 alias gs='git status'
+alias gb='git branch'
 
 # navigation
 alias p='pushcd'
