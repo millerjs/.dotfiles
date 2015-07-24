@@ -221,3 +221,7 @@ fi
 if [ -f ${HOME}/.local_bashrc ]; then
     source ${HOME}/.local_bashrc
 fi
+
+
+# Golang
+export GOPATH=${HOME}/gocode

@@ -1,5 +1,23 @@
 #!/bin/bash
 
+
+rustrun()
+{
+    bin=$(echo $1 | rev | cut -d. -f2- | rev)
+    rustc $@ && ./${bin}
+}
+
+# Format any venv name directory for PS1
+try_virtual_env()
+{
+    if [ "$VIRTUAL_ENV" != "" ]
+    then
+        echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
+    else
+        echo ""
+    fi
+}
+
 pyplt() {
     OUTPUT="output.png"
     py -c """

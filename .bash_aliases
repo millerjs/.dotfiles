@@ -58,3 +58,15 @@ alias wo='workon'
 # gcal
 alias today="cal agenda $(date +%R) 11:59pm"
 alias q='gcalcli quick'
+
+# Ubuntu
+if uname -arv | grep Ubuntu >/dev/null; then
+    alias copy='xclip'
+fi
+
+# OSX
+if uname -arv | grep -i darwin >/dev/null; then
+    alias copy='pbcopy'
+fi
+
+alias vault='vault -p'
