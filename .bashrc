@@ -230,3 +230,10 @@ export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 export TERM=xterm-256color
 export EDITOR=emacs
+if [ -f ${HOME}/.local_bashrc ]; then
+    source ${HOME}/.local_bashrc
+fi
+
+
+# Golang
+export GOPATH=${HOME}/gocode
