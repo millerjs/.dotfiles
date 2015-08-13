@@ -5,3 +5,5 @@
 	editor = emacs
 [merge]
 	tool = colordiff
+[init]
+	templatedir = /home/jmiller/git-templates

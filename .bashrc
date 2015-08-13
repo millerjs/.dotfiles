@@ -194,6 +194,13 @@ if [ -f ~/.bash_functions ]; then
     source ${HOME}/.bash_functions
 fi
 
+################################################################################
+# Source local bash run commands
+################################################################################
+if [ -f ${HOME}/.local_bashrc ]; then
+    source ${HOME}/.local_bashrc
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -201,15 +208,12 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-
-
-export HISTIGNORE="&:ls:ls:cd"
-export PYTHONIOENCODING=utf-8
-export TERM=xterm-256color
 shopt -s cdspell
 set cd options
 
+################################################################################
 # Virtual environment
+################################################################################
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
     source /usr/local/bin/virtualenvwrapper.sh
@@ -218,6 +222,11 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     uv
 fi
 
-if [ -f ${HOME}/.local_bashrc ]; then
-    source ${HOME}/.local_bashrc
-fi
+################################################################################
+# Environment settings
+################################################################################
+
+export HISTIGNORE="&:ls:ls:cd"
+export PYTHONIOENCODING=utf-8
+export TERM=xterm-256color
+export EDITOR=emacs
