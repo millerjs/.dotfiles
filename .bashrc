@@ -4,7 +4,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.scripts:/op
 export CLICOLOR=1
 export PATH
 export SVN_EDITOR="emacs -nw"
-export GIT_EDITOR="emacs -nw -q"
 
 if dpkg -l ubuntu-desktop 2>/dev/null >/dev/null; then
     _UBUNTU_DESKTOP=true
@@ -231,9 +230,18 @@ export PYTHONIOENCODING=utf-8
 export TERM=xterm-256color
 export EDITOR=emacs
 if [ -f ${HOME}/.local_bashrc ]; then
-    source ${HOME}/.local_bashrc
+    source "${HOME}/.local_bashrc"
 fi
 
 
 # Golang
 export GOPATH=${HOME}/gocode
+
+
+# Git settings
+export GIT_EDITOR="emacs -nw -q"
+export EDITOR="emacs -nw -q"
+
+if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
+    source "${HOME}/.dotfiles/scripts/git-completion.bash"
+fi

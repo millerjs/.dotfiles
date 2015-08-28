@@ -1,12 +1,6 @@
 #!/bin/bash
 
 
-rustrun()
-{
-    bin=$(echo $1 | rev | cut -d. -f2- | rev)
-    rustc $@ && ./${bin}
-}
-
 # Format any venv name directory for PS1
 try_virtual_env()
 {
@@ -17,6 +11,17 @@ try_virtual_env()
         echo ""
     fi
 }
+
+
+# Format any venv name directory for PS1
+testvenv()
+{
+    echo "Creating fresh test virtual environment"
+    rm -rf "${WORKON_HOME}/test"
+    mkv test
+    workon test
+}
+
 
 pyplt() {
     OUTPUT="output.png"
