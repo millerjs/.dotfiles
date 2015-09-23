@@ -1,6 +1,10 @@
 #!/bin/bash
 
 
+as() {
+    sudo su $1 -c """$(printf '"%s" ' "${@:2}")"""
+}
+
 # Format any venv name directory for PS1
 try_virtual_env()
 {
