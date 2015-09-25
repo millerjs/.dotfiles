@@ -38,6 +38,7 @@ alias gd='git diff'
 alias gs='git status'
 alias gb='git branch'
 alias gl='git log'
+alias gh='git log | head -n1 | cut -d" " -f2 | tee /dev/stderr | tr -d "\n" | c'
 
 # navigation
 alias p='pushcd'
@@ -62,12 +63,10 @@ alias q='gcalcli quick'
 
 # Ubuntu
 if uname -arv | grep Ubuntu >/dev/null; then
-    alias copy='xclip'
+    alias c='xclip'
 fi
 
 # OSX
 if uname -arv | grep -i darwin >/dev/null; then
-    alias copy='pbcopy'
+    alias c='pbcopy'
 fi
-
-alias vault='vault -p'

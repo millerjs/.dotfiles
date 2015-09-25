@@ -1,5 +1,8 @@
 #!/bin/bash
 
+pass() {
+    vault -p $@ | c
+}
 
 as() {
     sudo su $1 -c """$(printf '"%s" ' "${@:2}")"""
