@@ -164,6 +164,12 @@ prompt_cmd() {
     PS1="${PS1}${OFF}${BOLD}${GREEN}@$(get_hostname)"
     PS1="${PS1}${BOLD}${BLUE}(\\W)"
     PS1="${PS1}${GREEN}$ ${OFF}"
+
+    # Add timestamp?
+    # tput sc
+    # tput cup $(($(get_cursor_row)+2)) $(($(tput cols)-29))
+    # echo -e "$(date)"
+    # tput rc
 }
 
 PROMPT_COMMAND=prompt_cmd

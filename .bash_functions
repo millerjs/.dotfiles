@@ -1,5 +1,26 @@
 #!/bin/bash
 
+
+get_cursor_pos() {
+    exec < /dev/tty
+    oldstty=$(stty -g)
+    stty raw -echo min 0
+    echo -en "\033[6n" > /dev/tty
+    IFS=';' read -r -d R -a pos
+    stty $oldstty
+    echo $pos
+}
+
+get_cursor_row() {
+    pos=$(get_cursor_pos)
+    echo $((${pos[0]:2} - 1))
+}
+
+get_cursor_col() {
+    pos=$(get_cursor_pos)
+    echo $((${pos[1]} - 1))
+}
+
 pass() {
     vault -p $@ | c
 }

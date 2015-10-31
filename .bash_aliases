@@ -30,8 +30,10 @@ alias tl='tmux list-sessions'
 alias lt='tmux list-sessions'
 
 # emacs
-alias ew='emacs -nw'
-alias ewb='emacs -nw ~/.bashrc && source ~/.bashrc'
+alias e='emacsclient -nw'
+alias ew='emacsclient -nw'
+alias ewd='emacs --daemon'
+alias ewb='emacsclient -nw ~/.bashrc && source ~/.bashrc'
 
 # git
 alias gd='git diff'
