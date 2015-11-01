@@ -1,5 +1,51 @@
 #!/bin/bash
 
+tmux_new_shell() {
+    # For copying
+    if uname -arv | grep -i darwin >/dev/null; then
+        reattach-to-user-namespace -l bash
+    else bash
+    fi
+}
+
+emacsclient_to_daemon() {
+    emacsclient --server-file="$1" ${@:2}
+}
+
+get_emacs_daemon_name() {
+    if [[ -n "${TMUX+set}" ]] && tmux display-message -p "#S" > /dev/null;
+    then
+        echo "$(whoami)-$(tmux display-message -p '#S')"
+    fi
+}
+
+emacsclient_to_tmux_emacs_daemon() {
+    name=$(get_emacs_daemon_name)
+    if [[ "${name}" != "" ]]; then
+        name="$(whoami)-$(tmux display-message -p '#S')"
+        if emacsclient --server-file="${name}" -nw $@;
+        then :; else
+            echo -e 'No server associated with tmux session, starting now...\n'
+            emacs --daemon="${name}"
+            emacsclient --server-file="${name}" -nw $@;
+        fi
+    else
+        emacs -nw
+    fi
+}
+
+emacs_daemon() {
+    emacs --daemon="$1"
+}
+
+kill_emacs_daemon (){
+    pid=$(ps aux | grep "\-\-daemon=^J4,5^J$1" | tr -s ' ' | cut -f2 -d' ')
+    kill "${pid}"
+}
+
+list_emacs_daemons (){
+    ps aux | grep -i emacs | grep -o "\^J4,5\^J.*" | cut -c 8-
+}
 
 get_cursor_pos() {
     exec < /dev/tty

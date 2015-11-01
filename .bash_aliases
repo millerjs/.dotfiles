@@ -24,15 +24,18 @@ alias push="pushd"
 alias pop="popd"
 
 # tmux
-alias tn='tmux new -s'
+alias tn='tmux new -s "${name}"'
 alias ta='tmux attach -t'
 alias tl='tmux list-sessions'
 alias lt='tmux list-sessions'
 
 # emacs
-alias e='emacsclient -nw'
-alias ew='emacsclient -nw'
-alias ewd='emacs --daemon'
+alias e='emacsclient_to_tmux_emacs_daemon'
+alias ew='emacsclient_to_tmux_emacs_daemon'
+alias ews='emacsclient_to_daemon'
+alias ed='emacs_daemon'
+alias ked='kill_emacs_daemon'
+alias led='list_emacs_daemons'
 alias ewb='emacsclient -nw ~/.bashrc && source ~/.bashrc'
 
 # git
