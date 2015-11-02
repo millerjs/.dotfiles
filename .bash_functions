@@ -30,7 +30,7 @@ emacsclient_to_tmux_emacs_daemon() {
             emacsclient --server-file="${name}" -nw $@;
         fi
     else
-        emacs -nw
+        emacs -nw $@
     fi
 }
 

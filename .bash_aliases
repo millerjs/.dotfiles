@@ -24,7 +24,7 @@ alias push="pushd"
 alias pop="popd"
 
 # tmux
-alias tn='tmux new -s "${name}"'
+alias tn='tmux new -s'
 alias ta='tmux attach -t'
 alias tl='tmux list-sessions'
 alias lt='tmux list-sessions'
