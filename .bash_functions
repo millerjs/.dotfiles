@@ -43,6 +43,13 @@ kill_emacs_daemon (){
     kill "${pid}"
 }
 
+kill_this_emacs_daemon (){
+    name=$(get_emacs_daemon_name)
+    pid=$(ps aux | grep "\-\-daemon=^J4,5^J$name" | tr -s ' ' | cut -f2 -d' ')
+    echo "killing $name ($pid)"
+    kill "${pid}"
+}
+
 list_emacs_daemons (){
     ps aux | grep -i emacs | grep -o "\^J4,5\^J.*" | cut -c 8-
 }

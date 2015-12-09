@@ -19,9 +19,10 @@ alias l='ls -CF'
 alias lah='ls -lah'
 alias sl='ls'
 
+alias d="pushd"
+alias d-="popd"
 alias nd="pushd +1"
-alias push="pushd"
-alias pop="popd"
+
 
 # tmux
 alias tn='tmux new -s'
@@ -35,6 +36,7 @@ alias ew='emacsclient_to_tmux_emacs_daemon'
 alias ews='emacsclient_to_daemon'
 alias ed='emacs_daemon'
 alias ked='kill_emacs_daemon'
+alias kted='kill_this_emacs_daemon'
 alias led='list_emacs_daemons'
 alias ewb='emacsclient -nw ~/.bashrc && source ~/.bashrc'
 
@@ -43,7 +45,6 @@ alias gd='git diff'
 alias gs='git status'
 alias gb='git branch'
 alias gl='git log'
-alias gh='git log | head -n1 | cut -d" " -f2 | tee /dev/stderr | tr -d "\n" | c'
 
 # navigation
 alias p='pushcd'
@@ -53,8 +54,9 @@ alias dirs='dirs -v'
 alias u='up'
 
 # other
-alias x='extract'
+alias x='xonsh'
 alias im='imcat'
+alias bat="pmset -g batt | grep -Eo '\d+\%'"
 
 # python
 alias uv='workon $USER 2>/dev/null'
@@ -73,5 +75,5 @@ fi
 
 # OSX
 if uname -arv | grep -i darwin >/dev/null; then
-    alias c='pbcopy'
+    alias c='pbcpy'
 fi

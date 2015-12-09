@@ -1,0 +1,5 @@
+/Users/jmiller	40
+/Users/jmiller/.dotfiles/.tmux/plugins/tmux-sidebar	25
+/Users/jmiller/drive/org	29
+/Users/jmiller/gdcdictionary/jsonschema	40
+/Users/jmiller/drive/projects/rust	40

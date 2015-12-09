@@ -1,9 +1,28 @@
 [user]
-	name = Joshua Miller
-	email = jshuasmiller@gmail.com
+    name = Joshua Miller
+    email = jshuasmiller@gmail.com
 [core]
-	editor = emacs
+    editor = emacs
 [merge]
-	tool = colordiff
+    tool = colordiff
 [init]
-	templatedir = /home/jmiller/git-templates
+    templatedir = /Users/jmiller/git-templates/
+[alias]
+    branch-name = rev-parse --abbrev-ref HEAD
+    dev = checkout develop
+    pull = pull --ff-only
+    ship = "!git push origin $(git branch-name)"
+    feat = "!f() { git dev; git checkout -b feat/${1}; }; f"
+    yank = "!git pull --ff-only origin $(git branch-name)"
+    fo = fetch origin
+    wip = commit -nam 'wip'
+    catch = "!f() { git fo; git rebase -i origin/${1:-develop}; }; f"
+    fix = "!f() { git commit -nam 'fix'; git rebase -i origin/${1:-develop}; }; f"
+    uncommit = "!f() { git reset --soft HEAD^; git diff --staged --name-only | xargs git reset HEAD ;}; f"
+    hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcpy;}; f"
+[push]
+     default = simple
+[filter "hawser"]
+    clean = git hawser clean %f
+    smudge = git hawser smudge %f
+    required = true

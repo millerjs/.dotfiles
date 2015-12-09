@@ -21,7 +21,7 @@ def try_dist_file(f, src, dst):
     print('{0} -> {1}'.format(src_path, dst_path))
     try:
         f(src_path, dst_path)
-    except Exception, msg:
+    except OSError, msg:
         print('\twarning: unable to distribute: ' + str(msg))
 
 
@@ -37,10 +37,7 @@ def distribute_files(f):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Destribute .dotfiles')
     parser.add_argument('--copy', action='store_true')
-    parser.set_defaults(copy=False)
-    copy = parser.parse_args().copy
+    args = parser.parse_args()
 
-    if copy:
-        distribute_files(shutil.copy2)
-    else:
-        distribute_files(os.symlink)
+    dist_func = shutil.copy2 if args.copy else os.symlink
+    distribute_files(dist_func)

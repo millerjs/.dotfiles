@@ -1,0 +1,64 @@
+# Xonsh shell run control
+import os
+import datetime
+
+
+def _header(prefix, text):
+    return '{PURPLE}['+prefix+'{GREEN}'+text+'{PURPLE}]'
+
+
+def _computername():
+    return ($(scutil --get ComputerName e> /dev/null).strip()
+            or $(hostname).strip())
+
+
+def _git_repo():
+    name = ''.join($(git remote -v e> /dev/null).split('/')[-1].split()[:1])
+    return name.replace('.git', '')
+
+
+def _git_branch():
+    return $(git branch-name e> /dev/null).strip()
+
+
+def _true_false_color(val):
+    return $FORMATTER_DICT['GREEN'] if val else $FORMATTER_DICT['BOLD_RED']
+
+
+def _git_branch_color():
+    dirty = $(git diff-files --ignore-submodules e> /dev/null | head -c1)
+    return _true_false_color(not dirty)
+
+
+def _git_repo_color():
+    dirty = $(git diff origin/develop..HEAD --ignore-submodules e> /dev/null)
+    return _true_false_color(not dirty)
+
+def _return_code():
+    return __xonsh_history__.rtns[-1] if __xonsh_history__ else None
+
+def _return_code_prefix():
+    return $FORMATTER_DICT['RED']+'err:' if _return_code() else ''
+
+
+$FORMATTER_DICT['computername']     = _computername
+$FORMATTER_DICT['git_branch']       = _git_branch
+$FORMATTER_DICT['git_repo']         = _git_repo
+$FORMATTER_DICT['git_branch_color'] = _git_branch_color
+$FORMATTER_DICT['rc']               = _return_code
+$FORMATTER_DICT['rc_prefix']        = _return_code_prefix
+$FORMATTER_DICT['full_cwd']         = lambda: $(pwd).strip()
+$FORMATTER_DICT['venv']             = lambda: os.path.basename($VIRTUAL_ENV)
+
+
+$PROMPT = '\n\n'
+$PROMPT += _header('{rc_prefix}', '{rc}')
+$PROMPT += _header('v:', '{venv}')
+$PROMPT += _header('g:', '{git_repo}/{git_branch_color}{git_branch}')
+$PROMPT += _header('', '{full_cwd}')
+$PROMPT += '\n'
+$PROMPT += '{GREEN}{user}'
+$PROMPT += '{BOLD_GREEN}@{computername}'
+$PROMPT += '{BOLD_BLUE}({cwd_base})'
+$PROMPT += '{BOLD_GREEN}◆'
+$PROMPT += '{NO_COLOR} '
