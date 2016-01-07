@@ -77,3 +77,5 @@ fi
 if uname -arv | grep -i darwin >/dev/null; then
     alias c='pbcpy'
 fi
+
+alias x='xonsh --shell-type=prompt_toolkit'

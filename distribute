@@ -27,11 +27,9 @@ def try_dist_file(f, src, dst):
 
 def distribute_files(f):
     for src, dst in mapping.items():
-        if isinstance(dst, list):
-            for d in dst:
-                try_dist_file(f, src, d)
-        else:
-            try_dist_file(f, src, dst)
+        dst = [dst] if not isinstance(dst, list) else dst
+        for d in dst:
+            try_dist_file(f, src, d)
 
 
 if __name__ == '__main__':

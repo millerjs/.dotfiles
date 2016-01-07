@@ -9,7 +9,7 @@ tmux_new_shell() {
 }
 
 emacsclient_to_daemon() {
-    emacsclient --server-file="$1" ${@:2}
+    emacsclient --server-file="$1"
 }
 
 get_emacs_daemon_name() {
