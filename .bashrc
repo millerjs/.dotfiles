@@ -1,5 +1,5 @@
 #Fix PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.scripts:/opt/local/bin/:/usr/texbin:/usr/local/go/bin:/usr/local/Cellar/:/Users/jmiller/.cargo/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin/
 
 export CLICOLOR=1
 export PATH
