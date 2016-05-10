@@ -233,10 +233,11 @@ fi
 
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
-export TERM=xterm-256color
+export TERM=xterm-256color-italic
 export EDITOR=emacs
-if [ -f ${HOME}/.local_bashrc ]; then
-    source "${HOME}/.local_bashrc"
+
+if [ -f ${HOME}/.local ]; then
+    source "${HOME}/.local"
 fi
 
 

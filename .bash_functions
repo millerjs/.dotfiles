@@ -39,13 +39,13 @@ emacs_daemon() {
 }
 
 kill_emacs_daemon (){
-    pid=$(ps aux | grep "\-\-daemon=^J4,5^J$1" | tr -s ' ' | cut -f2 -d' ')
+    pid=$(ps aux | grep -E "\-\-daemon=.*$1" | tr -s ' ' | cut -f2 -d' ')
     kill "${pid}"
 }
 
 kill_this_emacs_daemon (){
     name=$(get_emacs_daemon_name)
-    pid=$(ps aux | grep "\-\-daemon=^J4,5^J$name" | tr -s ' ' | cut -f2 -d' ')
+    pid=$(ps aux | grep -E "\-\-daemon=.*$name" | tr -s ' ' | cut -f2 -d' ')
     echo "killing $name ($pid)"
     kill "${pid}"
 }
