@@ -1,8 +1,5 @@
 #!/bin/bash
 
-VM_IP_CACHE=~/.ssh/vms
-GOTO_PATH_CACHE=~/.aliased_paths
-
 function blank() {
     # just keep the screen blank
     while :;
@@ -82,7 +79,7 @@ emacs_daemon() {
 }
 
 kill_emacs_daemon (){
-    pid=$(ps aux | grep "\-\-daemon=^J4,5^J$1" | tr -s ' ' | cut -f2 -d' ')
+    pid=$(ps aux | grep -E "\-\-daemon=.+$1" | tr -s ' ' | cut -f2 -d' ')
     kill "${pid}"
 }
 
@@ -94,7 +91,7 @@ kill_this_emacs_daemon (){
 }
 
 list_emacs_daemons (){
-    ps aux | grep -i emacs | grep -o "\^J4,5\^J.*" | cut -c 8-
+    ps aux | grep -E "\-\-daemon=.+" | tr -s ' ' | cut -f2 -d' '
 }
 
 get_cursor_pos() {
@@ -117,10 +114,6 @@ get_cursor_col() {
     echo $((${pos[1]} - 1))
 }
 
-pass() {
-    vault -p $@ | c
-}
-
 as() {
     sudo su $1 -c """$(printf '"%s" ' "${@:2}")"""
 }
@@ -136,24 +129,6 @@ try_virtual_env()
     fi
 }
 
-
-# Format any venv name directory for PS1
-testvenv()
-{
-    echo "Creating fresh test virtual environment"
-    rm -rf "${WORKON_HOME}/test"
-    mkv test
-    workon test
-}
-
-
-plt() {
-    if [ "$#" -eq "0" ]; then
-        pyplt -l 'plt.plot(l)'
-    else
-        pyplt "plt.plot($1)"
-    fi
-}
 
 # Stolen from rkirti, kirtibr@gmail.com
 extract()

@@ -232,12 +232,12 @@ fi
 EMACS_CLIENT_EDITOR='emacsclient --server-file="jmiller-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
-export TERM=xterm-256color
+
 export EDITOR="${EMACS_CLIENT_EDITOR}"
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
 
-if [ -f ${HOME}/.local_bashrc ]; then
-    source "${HOME}/.local_bashrc"
+if [ -f ${HOME}/.local ]; then
+    source "${HOME}/.local"
 fi
 
 

@@ -12,7 +12,7 @@
 	branch-name = rev-parse --abbrev-ref HEAD
 	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     dev = checkout develop
-    pull = pull --ff-only
+    pull = pull # --ff-only
     ship = "!if [ $(git branch-name) == 'develop' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push origin $(git branch-name); fi"
     forceship = "!if [ $(git branch-name) == 'develop' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push -f origin $(git branch-name); fi"
     yank = "!git pull --ff-only origin $(git branch-name)"
