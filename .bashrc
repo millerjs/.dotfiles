@@ -1,9 +1,14 @@
 #Fix PATH
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin/
 
+
+if [ -f ${HOME}/.local_bashrc ]; then
+    source "${HOME}/.local_bashrc"
+fi
+
+
 export CLICOLOR=1
 export PATH
-export SVN_EDITOR="emacs -nw"
 
 if dpkg -l ubuntu-desktop 2>/dev/null >/dev/null; then
     _UBUNTU_DESKTOP=true
@@ -81,13 +86,13 @@ try_get_git()
         echo ${none}
         return
     fi
-    repo=$(git remote -v | head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
+    repo=$(git remote -v 2>/dev/null| head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
     GIT_SYMBOL='g:'
     BRED="${BOLD}${RED}"
-    if ! git diff-files --quiet --ignore-submodules --; then
+    if ! git diff-files --quiet --ignore-submodules -- 2>/dev/null; then
         if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules >/dev/null 2>/dev/null; then
             # uncommited, unpushed changes
             echo "${PURPLE}[${GIT_SYMBOL}${BRED}${repo}/${branch}${OFF}${PURPLE}]"
@@ -199,13 +204,6 @@ if [ -f ~/.bash_functions ]; then
     source ${HOME}/.bash_functions
 fi
 
-################################################################################
-# Source local bash run commands
-################################################################################
-if [ -f ${HOME}/.local_bashrc ]; then
-    source ${HOME}/.local_bashrc
-fi
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -231,10 +229,13 @@ fi
 # Environment settings
 ################################################################################
 
+EMACS_CLIENT_EDITOR='emacsclient --server-file="jmiller-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 export TERM=xterm-256color
-export EDITOR=emacs
+export EDITOR="${EMACS_CLIENT_EDITOR}"
+export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
+
 if [ -f ${HOME}/.local_bashrc ]; then
     source "${HOME}/.local_bashrc"
 fi
@@ -245,9 +246,17 @@ export GOPATH=${HOME}/gocode
 
 
 # Git settings
-export GIT_EDITOR="emacs -nw -q"
-export EDITOR="emacs -nw -q"
+export GIT_EDITOR="${EMACS_CLIENT_EDITOR}"
+
 
 if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
     source "${HOME}/.dotfiles/scripts/git-completion.bash"
+fi
+
+
+################################################################################
+# Source local bash run commands
+################################################################################
+if [ -f ${HOME}/.local_bashrc ]; then
+    source ${HOME}/.local_bashrc
 fi

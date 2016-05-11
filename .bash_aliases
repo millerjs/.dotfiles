@@ -19,10 +19,7 @@ alias l='ls -CF'
 alias lah='ls -lah'
 alias sl='ls'
 
-alias d="pushd"
-alias d-="popd"
-alias nd="pushd +1"
-
+alias d='dash'
 
 # tmux
 alias tn='tmux new -s'
@@ -32,7 +29,9 @@ alias lt='tmux list-sessions'
 
 # emacs
 alias e='emacsclient_to_tmux_emacs_daemon'
-alias ew='emacsclient_to_tmux_emacs_daemon'
+alias ew='emacs_new_tmux_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
+alias dew='emacs_new_tmux_emacs_daemon'
+alias rew='kill_this_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
 alias ews='emacsclient_to_daemon'
 alias ed='emacs_daemon'
 alias ked='kill_emacs_daemon'
@@ -57,6 +56,7 @@ alias u='up'
 alias x='xonsh'
 alias im='imcat'
 alias bat="pmset -g batt | grep -Eo '\d+\%'"
+alias to='goto_path_alias'
 
 # python
 alias uv='workon $USER 2>/dev/null'
@@ -64,9 +64,10 @@ alias pyl='py -l'
 alias mkv='mkvirtualenv'
 alias wo='workon'
 
-# gcal
+# google
 alias today="cal agenda $(date +%R) 11:59pm"
 alias q='gcalcli quick'
+alias g='google_this'
 
 # Ubuntu
 if uname -arv | grep Ubuntu >/dev/null; then
@@ -75,7 +76,7 @@ fi
 
 # OSX
 if uname -arv | grep -i darwin >/dev/null; then
-    alias c='pbcpy'
+    alias c='pbcopy'
 fi
 
 alias x='xonsh --shell-type=prompt_toolkit'
