@@ -21,7 +21,7 @@
     sync = "!f() { git fo; git rebase -i origin/${1:-develop}; }; f"
     fix = "!f() { git commit -S -nam 'fix'; git rebase -i HEAD~2; }; f"
     uncommit = "!f() { git reset --soft HEAD^; git diff --staged --name-only | xargs git reset HEAD ;}; f"
-	hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcpy;}; f"
+	hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcopy;}; f"
 	v = "!f() { open $( git config --get remote.origin.url | sed -e 's|git@github.com:|https://github.com/|g' ) ;}; f"
 	save = commit -S -a -m
 	commit = commit -S

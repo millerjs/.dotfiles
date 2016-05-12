@@ -229,7 +229,7 @@ fi
 # Environment settings
 ################################################################################
 
-EMACS_CLIENT_EDITOR='emacsclient --server-file="jmiller-main" -nw $@ || emacs -nw'
+EMACS_CLIENT_EDITOR='emacsclient --server-file="$(whoami)-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 
