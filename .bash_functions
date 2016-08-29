@@ -9,6 +9,18 @@ function blank() {
     done
 }
 
+# github_links()
+#
+# Given a link via stdin, place a github markdown format with
+# base of resource as the display text in the clipboard
+#
+# $1: URL
+function github_links() {
+    while :; do
+        head -n1 | py -x 'print("[{}]({})".format(x.split("/")[-1], x))' | c
+    done
+}
+
 function proceed_or_abort() {
     read -p "$1 [y/N] " choice
     case "$choice" in

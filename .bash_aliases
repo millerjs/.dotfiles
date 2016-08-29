@@ -29,8 +29,8 @@ alias lt='tmux list-sessions'
 
 # emacs
 alias e='emacsclient_to_tmux_emacs_daemon'
-alias ew='emacs_new_tmux_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
-alias dew='emacs_new_tmux_emacs_daemon'
+alias tew='emacs_new_tmux_emacs_daemon'
+alias ew='emacsclient_to_tmux_emacs_daemon'
 alias rew='kill_this_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
 alias ews='emacsclient_to_daemon'
 alias ed='emacs_daemon'
@@ -40,6 +40,7 @@ alias led='list_emacs_daemons'
 alias ewb='emacsclient -nw ~/.bashrc && source ~/.bashrc'
 
 # git
+alias gam='f() { git commit -am "$*"; }; f'
 alias gd='git diff'
 alias gs='git status'
 alias gb='git branch'
