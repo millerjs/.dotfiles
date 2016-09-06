@@ -11,6 +11,7 @@
 [alias]
 	branch-name = rev-parse --abbrev-ref HEAD
 	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     dev = checkout develop
     ship = "!if [ $(git branch-name) == 'develop' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push origin $(git branch-name); fi"
     forceship = "!if [ $(git branch-name) == 'develop' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push -f origin $(git branch-name); fi"
@@ -19,7 +20,7 @@
 	wip = commit -nam 'wip'
     sync = "!f() { git fo; git rebase -i origin/${1:-develop}; }; f"
     fix = "!f() { git commit -nam 'fix'; git rebase -i HEAD~2; }; f"
-    uncommit = "!f() { git reset --soft HEAD^; git diff --staged --name-only | xargs git reset HEAD ;}; f"
+    peel = "!f() { git reset --soft HEAD^; git diff --staged --name-only | xargs git reset HEAD ;}; f"
 	hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcopy;}; f"
 	v = "!f() { open $( git config --get remote.origin.url | sed -e 's|git@github.com:|https://github.com/|g' ) ;}; f"
 	save = commit -S -a -m
@@ -28,3 +29,6 @@
      default = simple
 [github]
 	user = millerjs
+[color "diff"]
+	old = red strike
+	new = green

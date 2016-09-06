@@ -19,8 +19,6 @@ alias l='ls -CF'
 alias lah='ls -lah'
 alias sl='ls'
 
-alias d='dash'
-
 # tmux
 alias tn='tmux new -s'
 alias ta='tmux attach -t'
@@ -37,14 +35,13 @@ alias ed='emacs_daemon'
 alias ked='kill_emacs_daemon'
 alias kted='kill_this_emacs_daemon'
 alias led='list_emacs_daemons'
-alias ewb='emacsclient -nw ~/.bashrc && source ~/.bashrc'
 
 # git
 alias gam='f() { git commit -am "$*"; }; f'
 alias gd='git diff'
 alias gs='git status'
 alias gb='git branch'
-alias gl='git log'
+alias gl='git l'
 
 # navigation
 alias p='pushcd'
@@ -53,22 +50,9 @@ alias r='pushd +1'
 alias dirs='dirs -v'
 alias u='up'
 
-# other
-alias x='xonsh'
-alias im='imcat'
-alias bat="pmset -g batt | grep -Eo '\d+\%'"
-alias to='goto_path_alias'
-
 # python
-alias uv='workon $USER 2>/dev/null'
-alias pyl='py -l'
 alias mkv='mkvirtualenv'
 alias wo='workon'
-
-# google
-alias today="cal agenda $(date +%R) 11:59pm"
-alias q='gcalcli quick'
-alias g='google_this'
 
 # Ubuntu
 if uname -arv | grep Ubuntu >/dev/null; then

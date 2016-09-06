@@ -235,6 +235,8 @@ export PYTHONIOENCODING=utf-8
 
 export EDITOR="${EMACS_CLIENT_EDITOR}"
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
+export PAGER="less -S"
+
 
 if [ -f ${HOME}/.local ]; then
     source "${HOME}/.local"
