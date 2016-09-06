@@ -221,15 +221,14 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
     source /usr/local/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
-    # workon user's default venv
-    uv
+    workon $USER 2>/dev/null
 fi
 
 ################################################################################
 # Environment settings
 ################################################################################
 
-EMACS_CLIENT_EDITOR='emacsclient --server-file="$(whoami)-main" -nw $@ || emacs -nw'
+EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 
