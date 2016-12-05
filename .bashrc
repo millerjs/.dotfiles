@@ -217,9 +217,9 @@ set cd options
 ################################################################################
 # Virtual environment
 ################################################################################
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
-    source /usr/local/bin/virtualenvwrapper.sh
+    source /usr/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
     workon $USER 2>/dev/null
 fi

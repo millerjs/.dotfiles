@@ -1,5 +1,7 @@
 #!/usr/bin/python
+
 import argparse
+import errno
 import shutil
 import os
 
@@ -12,16 +14,29 @@ mapping = {
     '.bash_aliases': '~/.bash_aliases',
     '.bash_functions': '~/.bash_functions',
     '.bashrc': ['~/.bashrc', '~/.bash_profile'],
+    '.Xmodmap': '~/.Xmodmap',
+    'i3.conf': '~/.i3/config',
 }
+
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno != errno.EEXIST or not os.path.isdir(path):
+            raise
 
 
 def try_dist_file(f, src, dst):
     src_path = os.path.join(basedir, src)
     dst_path = os.path.expanduser(dst)
     print('{0} -> {1}'.format(src_path, dst_path))
+
+
     try:
+        mkdir_p(os.path.dirname(dst_path))
         f(src_path, dst_path)
-    except OSError, msg:
+    except OSError as msg:
         print('\twarning: unable to distribute: ' + str(msg))
 
 
@@ -30,7 +45,6 @@ def distribute_files(f):
         dst = [dst] if not isinstance(dst, list) else dst
         for d in dst:
             try_dist_file(f, src, d)
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Destribute .dotfiles')
