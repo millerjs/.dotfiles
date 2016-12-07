@@ -1,15 +1,15 @@
 # Xonsh shell run control
 import os
 import datetime
+import socket
 
 
 def _header(prefix, text):
-    return '{PURPLE}['+prefix+'{GREEN}'+text+'{PURPLE}]'
+    return '{PURPLE}['+prefix+'{GREEN}'+text+'{PURPLE}]' if text else ''
 
 
 def _computername():
-    return ($(scutil --get ComputerName e> /dev/null).strip()
-            or $(hostname).strip())
+    return socket.gethostname()
 
 
 def _git_repo():
@@ -22,7 +22,7 @@ def _git_branch():
 
 
 def _true_false_color(val):
-    return $FORMATTER_DICT['GREEN'] if val else $FORMATTER_DICT['BOLD_RED']
+    return '{GREEN}' if val else '{BOLD_RED}'
 
 
 def _git_branch_color():
@@ -35,10 +35,11 @@ def _git_repo_color():
     return _true_false_color(not dirty)
 
 def _return_code():
-    return __xonsh_history__.rtns[-1] if __xonsh_history__ else None
+    code = __xonsh_history__.rtns[-1] if __xonsh_history__ else 0
+    return code if code else ''
 
 def _return_code_prefix():
-    return $FORMATTER_DICT['RED']+'err:' if _return_code() else ''
+    return '{RED}err:' if _return_code() else ''
 
 
 $FORMATTER_DICT['computername']     = _computername
@@ -60,5 +61,7 @@ $PROMPT += '\n'
 $PROMPT += '{GREEN}{user}'
 $PROMPT += '{BOLD_GREEN}@{computername}'
 $PROMPT += '{BOLD_BLUE}({cwd_base})'
-$PROMPT += '{BOLD_GREEN}◆'
+$PROMPT += '{BOLD_GREEN}$'
 $PROMPT += '{NO_COLOR} '
+
+$XONSH_COLOR_STYLE = 'monokai'

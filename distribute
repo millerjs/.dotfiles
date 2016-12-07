@@ -16,7 +16,9 @@ mapping = {
     '.bashrc': ['~/.bashrc', '~/.bash_profile'],
     '.Xmodmap': '~/.Xmodmap',
     'i3.conf': '~/.i3/config',
+    '.i3status.conf': '~/.i3status.conf',
     'termite.conf': '~/.config/termite/config',
+    '.xonshrc': '~/.xonshrc',
 }
 
 
