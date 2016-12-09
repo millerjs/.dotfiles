@@ -228,11 +228,11 @@ fi
 # Environment settings
 ################################################################################
 
-EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
+# EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 
-export EDITOR="${EMACS_CLIENT_EDITOR}"
+export EDITOR="emacs -nw"
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
 export PAGER="less -S"
 

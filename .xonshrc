@@ -64,4 +64,6 @@ $PROMPT += '{BOLD_BLUE}({cwd_base})'
 $PROMPT += '{BOLD_GREEN}$'
 $PROMPT += '{NO_COLOR} '
 
-$XONSH_COLOR_STYLE = 'monokai'
+$XONSH_COLOR_STYLE = 'vim'
+
+$PATH += ["~/bin"]
