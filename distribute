@@ -19,6 +19,7 @@ mapping = {
     '.i3status.conf': '~/.i3status.conf',
     'termite.conf': '~/.config/termite/config',
     '.xonshrc': '~/.xonshrc',
+    '.xonsh_functions.xsh': '~/.xonsh_functions.xsh',
 }
 
 
