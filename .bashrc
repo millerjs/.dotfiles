@@ -247,7 +247,7 @@ export GOPATH=${HOME}/gocode
 
 
 # Git settings
-export GIT_EDITOR="${EMACS_CLIENT_EDITOR}"
+export GIT_EDITOR="emacs -nw"
 
 
 if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
@@ -255,9 +255,8 @@ if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
 fi
 
 
-################################################################################
 # Source local bash run commands
-################################################################################
+
 if [ -f ${HOME}/.local_bashrc ]; then
     source ${HOME}/.local_bashrc
 fi

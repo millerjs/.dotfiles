@@ -20,6 +20,7 @@ mapping = {
     'termite.conf': '~/.config/termite/config',
     '.xonshrc': '~/.xonshrc',
     '.xonsh_functions.xsh': '~/.xonsh_functions.xsh',
+    '.xonsh_aliases.xsh': '~/.xonsh_aliases.xsh',
 }
 
 
