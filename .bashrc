@@ -217,9 +217,9 @@ set cd options
 ################################################################################
 # Virtual environment
 ################################################################################
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
-    source /usr/local/bin/virtualenvwrapper.sh
+    source /usr/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
     workon $USER 2>/dev/null
 fi
@@ -228,11 +228,11 @@ fi
 # Environment settings
 ################################################################################
 
-EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
+# EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
 export HISTIGNORE="&:ls:ls:cd"
 export PYTHONIOENCODING=utf-8
 
-export EDITOR="${EMACS_CLIENT_EDITOR}"
+export EDITOR="emacs -nw"
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
 export PAGER="less -S"
 
@@ -247,7 +247,7 @@ export GOPATH=${HOME}/gocode
 
 
 # Git settings
-export GIT_EDITOR="${EMACS_CLIENT_EDITOR}"
+export GIT_EDITOR="emacs -nw"
 
 
 if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
@@ -255,9 +255,8 @@ if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
 fi
 
 
-################################################################################
 # Source local bash run commands
-################################################################################
+
 if [ -f ${HOME}/.local_bashrc ]; then
     source ${HOME}/.local_bashrc
 fi

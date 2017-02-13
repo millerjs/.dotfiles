@@ -54,14 +54,20 @@ alias u='up'
 alias mkv='mkvirtualenv'
 alias wo='workon'
 
-# Ubuntu
-if uname -arv | grep Ubuntu >/dev/null; then
-    alias c='xclip'
-fi
 
-# OSX
-if uname -arv | grep -i darwin >/dev/null; then
+# Clipboard
+if uname -arv | grep Linux >/dev/null; then
+    # Other Linux
+    alias c='xclip -selection clipboard -i'
+
+elif uname -arv | grep Ubuntu >/dev/null; then
+    # Ubuntu
+    alias c='xclip'
+
+elif uname -arv | grep -i darwin >/dev/null; then
+    # OSX
     alias c='pbcopy'
 fi
+
 
 alias x='xonsh --shell-type=prompt_toolkit'
