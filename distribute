@@ -21,6 +21,7 @@ mapping = {
     '.xonshrc': '~/.xonshrc',
     '.xonsh_functions.xsh': '~/.xonsh_functions.xsh',
     '.xonsh_aliases.xsh': '~/.xonsh_aliases.xsh',
+    'ack.rc': '~/.ackrc',
 }
 
 

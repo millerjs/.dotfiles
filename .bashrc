@@ -1,5 +1,5 @@
 #Fix PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin/
+PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/local/bin/
 
 
 if [ -f ${HOME}/.local_bashrc ]; then
@@ -229,7 +229,7 @@ fi
 ################################################################################
 
 # EMACS_CLIENT_EDITOR='emacsclient --server-file="$USER-main" -nw $@ || emacs -nw'
-export HISTIGNORE="&:ls:ls:cd"
+export HISTIGNORE="&:ls:ls:cd:g"
 export PYTHONIOENCODING=utf-8
 
 export EDITOR="emacs -nw"
@@ -260,3 +260,11 @@ fi
 if [ -f ${HOME}/.local_bashrc ]; then
     source ${HOME}/.local_bashrc
 fi
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

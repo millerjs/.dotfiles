@@ -44,14 +44,14 @@ def _return_code_prefix():
     return '{RED}err:' if _return_code() else ''
 
 
-$FORMATTER_DICT['computername']     = _computername
-$FORMATTER_DICT['git_branch']       = _git_branch
-$FORMATTER_DICT['git_repo']         = _git_repo
-$FORMATTER_DICT['git_branch_color'] = _git_branch_color
-$FORMATTER_DICT['rc']               = _return_code
-$FORMATTER_DICT['rc_prefix']        = _return_code_prefix
-$FORMATTER_DICT['full_cwd']         = lambda: $(pwd).strip()
-$FORMATTER_DICT['venv']             = lambda: os.path.basename($VIRTUAL_ENV)
+$PROMPT_FIELDS['computername']     = _computername
+$PROMPT_FIELDS['git_branch']       = _git_branch
+$PROMPT_FIELDS['git_repo']         = _git_repo
+$PROMPT_FIELDS['git_branch_color'] = _git_branch_color
+$PROMPT_FIELDS['rc']               = _return_code
+$PROMPT_FIELDS['rc_prefix']        = _return_code_prefix
+$PROMPT_FIELDS['full_cwd']         = lambda: $(pwd).strip()
+$PROMPT_FIELDS['venv']             = lambda: os.path.basename($VIRTUAL_ENV)
 
 
 $PROMPT = '\n\n'
