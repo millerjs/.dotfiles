@@ -1,16 +1,15 @@
 [user]
     name = Joshua Miller
     email = jsmiller@uchicago.edu
-	signingkey = 8168AA32
 [core]
-    editor = emacs
+    editor = emacs -nw
 [merge]
     tool = colordiff
 # [init]
-# 	templatedir = ~/.git-templates
+#   templatedir = ~/.git-templates
 [alias]
-	branch-name = rev-parse --abbrev-ref HEAD
-	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    branch-name = rev-parse --abbrev-ref HEAD
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     rc = checkout release_candidate
     master = checkout master
@@ -18,20 +17,20 @@
     forceship = "!if [ $(git branch-name) == 'release_candidate' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push -f origin $(git branch-name); fi"
     yank = "!git pull --ff-only origin $(git branch-name)"
     fo = fetch origin
-	wip = commit -nam 'wip'
+    wip = commit -nam 'wip'
     sync = "!f() { git fo; git rebase -i origin/${1:-release_candidate}; }; f"
     fix = "!f() { git commit -nam 'fix'; git rebase -i HEAD~2; }; f"
+    hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcopy;}; f"
     peel = "!f() { git reset --soft HEAD^; git diff --staged --name-only | xargs git reset HEAD ;}; f"
-	hash = "!f() { git log | head -n1 | cut -d' ' -f2 | tee /dev/stderr | tr -d '\n' | pbcopy;}; f"
-	v = "!f() { open $( git config --get remote.origin.url | sed -e 's|git@github.com:|https://github.com/|g' ) ;}; f"
-	save = commit -S -a -m
-	commit = commit -S
-	cob = checkout -b
-	co = checkout
+    v = "!f() { open $( git config --get remote.origin.url | sed -e 's|git@github.com:|https://github.com/|g' ) ;}; f"
+    save = commit -S -a -m
+    commit = commit -S
+    cob = checkout -b
+    co = checkout
 [push]
      default = simple
 [github]
-	user = millerjs
+    user = millerjs
 [color "diff"]
-	# old = red strike
-	new = green
+    # old = red strike
+    new = green

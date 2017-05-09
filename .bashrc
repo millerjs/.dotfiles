@@ -232,7 +232,7 @@ fi
 export HISTIGNORE="&:ls:ls:cd:g"
 export PYTHONIOENCODING=utf-8
 
-export EDITOR="emacs -nw"
+export EDITOR="ew"
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
 export PAGER="less -S"
 
@@ -262,7 +262,7 @@ if [ -f ${HOME}/.local_bashrc ]; then
 fi
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:/Users/jmiller/.rvm/gems/ruby-2.2.2/bin:$HOME/.rvm/bin"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 

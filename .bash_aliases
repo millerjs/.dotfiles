@@ -30,14 +30,11 @@ alias lt='tmux list-sessions'
 
 # emacs
 alias e='emacsclient_to_tmux_emacs_daemon'
-alias tew='emacs_new_tmux_emacs_daemon'
 alias ew='emacsclient_to_tmux_emacs_daemon'
+alias ed='emacsclient -nw --server-file'
+alias ewm='ed main'
 alias rew='kill_this_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
-alias ews='emacsclient_to_daemon'
-alias ed='emacs_daemon'
-alias ked='kill_emacs_daemon'
 alias kted='kill_this_emacs_daemon'
-alias led='list_emacs_daemons'
 
 # git
 alias gam='f() { git commit -am "$*"; }; f'
@@ -57,6 +54,9 @@ alias u='up'
 alias mkv='mkvirtualenv'
 alias wo='workon'
 
+# ruby/rails
+alias be='bundle exec'
+alias ber='bundle exec rails'
 
 # Clipboard
 if uname -arv | grep Linux >/dev/null; then

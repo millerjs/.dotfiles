@@ -34,64 +34,49 @@ for result in r.json():
 """
 }
 
+# ======================================================================
+# Tmux + Emacs integration
 
 emacsclient_to_daemon() {
-    emacsclient --server-file="$1"
+    emacsclient --server-file="$1" -nw "${@:2}"
 }
 
 get_emacs_daemon_name() {
-    if [[ -n "${TMUX+set}" ]] && tmux display-message -p "#S" > /dev/null;
-    then
-        echo "$(whoami)-$(tmux display-message -p '#S')"
+    if [[ -n "${TMUX+set}" ]] && tmux display-message -p "#S" > /dev/null; then
+        tmux display-message -p '#S'
     fi
 }
 
 emacsclient_to_tmux_emacs_daemon() {
     name=$(get_emacs_daemon_name)
+
     if [[ "${name}" != "" ]]; then
-        if emacsclient --server-file="${name}" -nw $@;
-        then :; else
+
+        # first try
+        if emacsclient_to_daemon $name $@; then :; else
+
+            # failed first try, start server
             echo -e 'No server associated with tmux session, starting now...\n'
-            emacs -nw $@
+            emacs --daemon=$name
+
+            # second try or launch normally
+            if emacsclient_to_daemon $name $@; then :; else emacs -nw $@; fi
+
         fi
     else
         emacs -nw $@
     fi
 }
 
-emacs_new_tmux_emacs_daemon() {
-    name=$(get_emacs_daemon_name)
-    if [[ "${name}" != "" ]]; then
-        name="$(whoami)-$(tmux display-message -p '#S')"
-        if emacsclient --server-file="${name}" -nw $@;
-        then :; else
-            echo -e 'No server associated with tmux session, starting now...\n'
-            emacs --daemon="${name}"
-        fi
-    else
-        echo -e 'Not in tmux.\n'
-    fi
-}
-
-emacs_daemon() {
-    emacs --daemon="$1"
-}
-
-kill_emacs_daemon (){
-    pid=$(ps aux | grep -E "\-\-daemon=.+$1" | tr -s ' ' | cut -f2 -d' ')
-    kill "${pid}"
-}
-
 kill_this_emacs_daemon (){
     name=$(get_emacs_daemon_name)
-    pid=$(ps aux | grep -E "\-\-daemon=.+$name" | tr -s ' ' | cut -f2 -d' ')
+    pid=$(ps aux | grep "$name" | grep daemon | tr -s ' ' | cut -f2 -d' ')
     echo "killing $name ($pid)"
     kill "${pid}"
 }
 
-list_emacs_daemons (){
-    ps aux | grep -E "\-\-daemon=.+" | tr -s ' ' | cut -f2 -d' '
-}
+# ======================================================================
+# Cursor functions
 
 get_cursor_pos() {
     exec < /dev/tty
