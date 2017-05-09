@@ -5,8 +5,6 @@
     editor = emacs -nw
 [merge]
     tool = colordiff
-# [init]
-#   templatedir = ~/.git-templates
 [alias]
     branch-name = rev-parse --abbrev-ref HEAD
     graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
@@ -32,5 +30,4 @@
 [github]
     user = millerjs
 [color "diff"]
-    # old = red strike
     new = green
