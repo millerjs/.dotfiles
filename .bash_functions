@@ -1,5 +1,9 @@
 #!/bin/bash
 
+function pids() {
+    ps aux | grep $@ | grep -v 'grep ' | tr -s ' ' | cut -f2 -d' '
+}
+
 function blank() {
     # just keep the screen blank
     while :;
@@ -7,6 +11,15 @@ function blank() {
         clear
         read
     done
+}
+
+function git_url() {
+    git config --get remote.origin.url | sed -e 's|git@github.com:|https://github.com/|g'
+}
+
+function open_git_commit_url() {
+    url=$(git_url)
+    open "${url%.git}/commit/$1"
 }
 
 function proceed_or_abort() {
@@ -21,6 +34,20 @@ function bat() {
     pmset -g batt | grep -Eo '\d+\%'
 }
 
+function tmux_zoom_in() {
+    tmux new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' &&\
+        tmux swap-pane -s tmux-zoom.0 &&\
+        tmux select-window -t tmux-zoom &&\
+        tmux display 'ZOOMED IN'
+}
+
+function tmux_zoom_out() {
+    tmux last-window &&\
+        tmux swap-pane -s tmux-zoom.0 &&\
+        tmux kill-window -t tmux-zoom &&\
+        tmux display 'ZOOMED OUT'
+}
+
 pubkey() {
     if [ -z "$1" ]; then
         echo "usage: $FUNCNAME username"
@@ -32,6 +59,10 @@ r = requests.get(\"https://api.github.com/users/$1/keys\")
 for result in r.json():
     print(result['key'])
 """
+}
+
+recording_ps1() {
+    export PS1="bash: [\W] \\$ \[$(tput sgr0)\]"
 }
 
 # ======================================================================

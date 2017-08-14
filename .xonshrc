@@ -68,7 +68,7 @@ $PROMPT += '{NO_COLOR} '
 
 $XONSH_COLOR_STYLE = 'native'
 
-source ~/.xonsh_functions.xsh
-source ~/.xonsh_aliases.xsh
+# source ~/.xonsh_functions.xsh
+# source ~/.xonsh_aliases.xsh
 
 aliases['ew'] = ['emacs', '-nw']

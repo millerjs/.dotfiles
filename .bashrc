@@ -73,6 +73,11 @@ header()
     fi
 }
 
+git_repo() {
+    git remote -v 2>/dev/null| head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//'
+}
+
+
 # Get git status for PS1 header
 try_get_git()
 {
@@ -86,7 +91,7 @@ try_get_git()
         echo ${none}
         return
     fi
-    repo=$(git remote -v 2>/dev/null| head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
+    repo=$(git_repo)
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
@@ -177,7 +182,13 @@ prompt_cmd() {
     # tput rc
 }
 
+
+recording_prompt() {
+    PS1="bash: [\W] $ "
+}
+
 PROMPT_COMMAND=prompt_cmd
+# PROMPT_COMMAND=recording_prompt
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

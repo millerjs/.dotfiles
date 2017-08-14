@@ -35,13 +35,16 @@ alias ed='emacsclient -nw --server-file'
 alias ewm='ed main'
 alias rew='kill_this_emacs_daemon; emacsclient_to_tmux_emacs_daemon'
 alias kted='kill_this_emacs_daemon'
+alias e='emacsclient --server-file=$(get_emacs_daemon_name)'
 
 # git
 alias gam='f() { git commit -am "$*"; }; f'
-alias gd='git diff'
+alias gd='cdiff -w0 -s'
 alias gs='git status'
 alias gb='git branch'
 alias gl='git l'
+alias gp='git commit -p'
+alias gdr='git diff origin/release_candidate'
 
 # navigation
 alias p='pushcd'
@@ -74,3 +77,25 @@ fi
 
 
 alias x='xonsh --shell-type=prompt_toolkit'
+
+alias less='less -rS'
+alias n='notes'
+alias f='finder'
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+
+# Ruby/Rails
+alias be='bundle exec'
+alias bi='bundle install'
+alias ber='bundle exec rails'
+alias berc='bundle exec rails c'
+alias pr='pry-remote -w'
+
+# magit ftw
+alias magit-status="ew --eval '(magit-status) (delete-other-windows)'"
+alias magit-log="ew --eval '(magit-log) (delete-other-windows)'"
+
+alias magit=magit-status
+alias ms=magit-status
+alias mg=magit-status
+alias ml=magit-status
+alias m=magit-status
