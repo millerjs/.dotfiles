@@ -265,6 +265,9 @@ if [ -f ${HOME}/.dotfiles/scripts/git-completion.bash ]; then
     source "${HOME}/.dotfiles/scripts/git-completion.bash"
 fi
 
+if [ -f ${HOME}/.bash_colors ]; then
+    source ${HOME}/.bash_colors
+fi
 
 # Source local bash run commands
 

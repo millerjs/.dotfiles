@@ -4,6 +4,13 @@ function pids() {
     ps aux | grep $@ | grep -v 'grep ' | tr -s ' ' | cut -f2 -d' '
 }
 
+function ssl_expiry() {
+    for host in $@; do
+        printf "${host}\n\t\t\t\t"
+        echo | openssl s_client -servername "$host" -connect "${host}:443" 2>/dev/null | openssl x509 -noout -dates | rg notAfter
+    done
+}
+
 function blank() {
     # just keep the screen blank
     while :;
@@ -22,12 +29,16 @@ function open_git_commit_url() {
     open "${url%.git}/commit/$1"
 }
 
-function proceed_or_abort() {
+function proceed_yes_no() {
     read -p "$1 [y/N] " choice
     case "$choice" in
-        y|Y ) true;;
-        n|N|* ) echo "Aborted."; exit 1;;
+        y|Y )   true;;
+        n|N|* ) false;;
     esac
+}
+
+function proceed_or_abort() {
+    proceed_yes_no $@ || echo "Aborted." && exit 1
 }
 
 function bat() {
@@ -237,4 +248,13 @@ up () {
     for i in `seq 1 $1`; do
         cd ../
     done
+}
+
+function refactor() {
+    original=$1
+    replacement=$2
+
+    rg "$1" "${@:3}"|| return
+    echo -en "\n\n${BIGreen}Replace these occurances with ${BIBlue}${replacement}?${CReset}"
+    proceed_yes_no && rg -l "$1" "${@:3}" | xargs perl -pi -e "s/${original}/${replacement}/g"
 }

@@ -12,8 +12,8 @@
     rc = checkout release_candidate
     new = "!f() { git commit -p; git stash && git rc && git yank && git checkout -b ${1}; }; f"
     master = checkout master
-    ship = "!if [ $(git branch-name) == 'release_candidate' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push origin $(git branch-name); git v; fi"
-    forceship = "!if [ $(git branch-name) == 'release_candidate' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push -f origin $(git branch-name); git v; fi"
+    ship = "!if [ $(git branch-name) == 'release_candidate' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push origin $(git branch-name); fi"
+    forceship = "!if [ $(git branch-name) == 'release_candidate' ] || [ $(git branch-name) == 'master' ]; then echo on $(git branch-name), refusing to ship; else git push -f origin $(git branch-name); fi"
     yank = "!git pull --ff-only origin $(git branch-name)"
     fo = fetch origin
     wip = commit -nam 'wip'
@@ -31,6 +31,10 @@
     diffr = diff origin/release_candidate
     review = "!f() { tmux new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' && tmux swap-pane -s tmux-zoom.0 && tmux select-window -t tmux-zoom && tmux display 'ZOOMED IN'; cdiff -w $(expr $(tput cols) / 2) -s -c always | less -r && git commit -a; tmux last-window && tmux swap-pane -s tmux-zoom.0 && tmux kill-window -t tmux-zoom && tmux display 'ZOOMED OUT'; }; f"
     r = "!f() { git review; }; f"
+    sign = 'commit -S'
+    shipv = "!f() { git ship; git v ;}; f"
+    sv = "!f() { git shipv ;}; f"
+    continue = rebase --continue
 [push]
      default = simple
 [github]
@@ -38,6 +42,6 @@
 [color "diff"]
     new = green
 [rerere]
-	enabled = true
+    enabled = true
 [diff]
-	algorithm = patience
+    algorithm = patience

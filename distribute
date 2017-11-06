@@ -14,6 +14,7 @@ mapping = {
     '.bash_aliases': '~/.bash_aliases',
     '.bash_functions': '~/.bash_functions',
     '.bashrc': ['~/.bashrc', '~/.bash_profile'],
+    '.bash_colors': '~/.bash_colors',
     '.Xmodmap': '~/.Xmodmap',
     'i3.conf': '~/.i3/config',
     '.i3status.conf': '~/.i3status.conf',
