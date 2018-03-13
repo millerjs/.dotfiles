@@ -282,3 +282,6 @@ export PATH="$PATH:/Users/jmiller/.rvm/gems/ruby-2.2.2/bin:$HOME/.rvm/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+
+export GPG_TTY=$(tty)

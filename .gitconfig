@@ -1,6 +1,7 @@
 [user]
     name = Joshua Miller
     email = jsmiller@uchicago.edu
+    signingkey = 03D472904FF2EECC
 [core]
     editor = emacs -nw
 [merge]
@@ -32,7 +33,7 @@
     review = "!f() { tmux new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' && tmux swap-pane -s tmux-zoom.0 && tmux select-window -t tmux-zoom && tmux display 'ZOOMED IN'; cdiff -w $(expr $(tput cols) / 2) -s -c always | less -r && git commit -a; tmux last-window && tmux swap-pane -s tmux-zoom.0 && tmux kill-window -t tmux-zoom && tmux display 'ZOOMED OUT'; }; f"
     r = "!f() { git review; }; f"
     sign = 'commit -S'
-    shipv = "!f() { git ship; git v ;}; f"
+    shipv = "!f() { git ship && git v ;}; f"
     sv = "!f() { git shipv ;}; f"
     continue = rebase --continue
 [push]
