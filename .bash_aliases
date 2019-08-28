@@ -99,3 +99,10 @@ alias ms=magit-status
 alias mg=magit-status
 alias ml=magit-status
 alias m=magit-status
+
+alias httpdump="sudo tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)' -i lo0"
+
+alias please='sudo'
+alias encrypt='gpg  --encrypt --recipient'
+
+alias podsw='kubectl get pods -w -lapp=benchprep-v2'

@@ -63,6 +63,13 @@ WHITE="\[\033[37m\]"
 # Terminal OK symbols
 STAR1='※'
 
+GIT_SYMBOL='⥴ '
+ERROR_SYMBOL='✗'
+VENV_SYMBOL='∈'
+TIMER_SYMBOL=''
+CWD_SYMBOL='∈ '
+K8S_SYMBOL='⊕ '
+
 # Format status message for bash PS1
 header()
 {
@@ -95,7 +102,6 @@ try_get_git()
     branch=$(git branch 2>/dev/null | grep '*' | sed s/'* '//g)
     status=$(git  2>/dev/null | grep '*' | sed s/'* '//g)
 
-    GIT_SYMBOL='g:'
     BRED="${BOLD}${RED}"
     if ! git diff-files --quiet --ignore-submodules -- 2>/dev/null; then
         if ! git diff origin/${branch}..HEAD --quiet --ignore-submodules >/dev/null 2>/dev/null; then
@@ -116,10 +122,20 @@ try_get_git()
     fi
 }
 
+
+# Format status message for bash PS1
+try_k8s_context()
+{
+    if [ "$KUBE_CONTEXT" != "" ]; then
+        echo "${PURPLE}[${K8S_SYMBOL}${GREEN}$KUBE_CONTEXT${PURPLE}]"
+    fi
+}
+
+
 # Format the return code for PS1
 return_code="""
 if [ \$? = 0 ]; then echo '';
-else echo $(header ${RED}err: \$?); fi"""
+else echo $(header ${RED}${ERROR_SYMBOL}\$?); fi"""
 
 # Format the current directory for PS1
 current_dir()
@@ -130,7 +146,7 @@ current_dir()
     then
         echo ""
     fi
-    echo "$(header ${CWD})"
+    echo "$(header ${CWD_SYMBOL}${CWD})"
 }
 
 # Format the hostname directory for PS1
@@ -148,9 +164,7 @@ try_virtual_env()
 {
     if [ "$VIRTUAL_ENV" != "" ]
     then
-        echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
-    else
-        echo ""
+        echo "${PURPLE}[${VENV_SYMBOL}${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
     fi
 }
 
@@ -159,12 +173,33 @@ try_get_user()
     echo '\u'
 }
 
+ps1_timer_start() {
+  timer=${timer:-$SECONDS}
+}
+
+ps1_timer_stop() {
+  ps1_timer_show=$(($SECONDS - $timer))
+  unset timer
+}
+
+try_get_ps1_timer()
+{
+    if [ "$ps1_timer_show" != "0" ]; then
+        echo "${PURPLE}[${TIMER_SYMBOL}${GREEN}${ps1_timer_show}${PURPLE}]"
+    fi
+}
+
+trap 'ps1_timer_start' DEBUG
+
 prompt_cmd() {
+    ps1_timer_stop
     PS1=""
     HDR="\n\n"
     HDR="${HDR}"
     HDR="${HDR}\$(${return_code})"
-    HDR="${HDR}$(try_virtual_env)"
+    HDR="${HDR}$(try_get_ps1_timer)"
+    # HDR="${HDR}$(try_virtual_env)"
+    HDR="${HDR}$(try_k8s_context)"
     HDR="${HDR}$(try_get_git)"
     HDR="${HDR}$(current_dir)"
     HDR="${HDR}\n"
@@ -230,6 +265,7 @@ set cd options
 ################################################################################
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     export WORKON_HOME=~/.venvs
+    source /usr/local/bin/virtualenvwrapper.sh
     source /usr/bin/virtualenvwrapper.sh
     alias workoff='deactivate'
     workon $USER 2>/dev/null
@@ -285,3 +321,14 @@ export NVM_DIR="$HOME/.nvm"
 
 
 export GPG_TTY=$(tty)
+export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+
+### Added by IBM Cloud CLI
+# source /usr/local/Bluemix/bx/bash_autocomplete
+
+### Added by benchprep-kubernetes setup
+export PATH=$PATH:/Users/jmiller/bp/kubernetes/scripts
+ulimit -n 10000 12000
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export ANSIBLE_NOCOWS=1

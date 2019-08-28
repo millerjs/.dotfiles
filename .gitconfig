@@ -8,6 +8,7 @@
     tool = colordiff
 [alias]
     branch-name = rev-parse --abbrev-ref HEAD
+    recent = "!f() { git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' | less -R ; }; f"
     graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     l = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     rc = checkout release_candidate
@@ -31,15 +32,21 @@
     p = commit -p
     diffr = diff origin/release_candidate
     review = "!f() { tmux new-window -d -n tmux-zoom 'clear && echo TMUX ZOOM && read' && tmux swap-pane -s tmux-zoom.0 && tmux select-window -t tmux-zoom && tmux display 'ZOOMED IN'; cdiff -w $(expr $(tput cols) / 2) -s -c always | less -r && git commit -a; tmux last-window && tmux swap-pane -s tmux-zoom.0 && tmux kill-window -t tmux-zoom && tmux display 'ZOOMED OUT'; }; f"
-    r = "!f() { git review; }; f"
+
     sign = 'commit -S'
     shipv = "!f() { git ship && git v ;}; f"
     sv = "!f() { git shipv ;}; f"
     continue = rebase --continue
+    attribute = blame
+    whodunit = blame
+    prune = fetch --all --prune
+    vacuum = "!f() { git branch -r | awk '{print $1}' | grep -v <(git branch -vv | grep origin) | awk '{print $1}' | cut -d'/' -f2 | xargs git branch -d ;}; f"
+
 [push]
      default = simple
 [github]
-    user = millerjs
+	user = millerjs
+	oauth-token = bd698473e1b254cfd137f40140ecddf7bc404a5d
 [color "diff"]
     new = green
 [rerere]

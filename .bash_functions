@@ -144,17 +144,6 @@ as() {
     sudo su $1 -c """$(printf '"%s" ' "${@:2}")"""
 }
 
-# Format any venv name directory for PS1
-try_virtual_env()
-{
-    if [ "$VIRTUAL_ENV" != "" ]
-    then
-        echo "${PURPLE}[v:${GREEN}${VIRTUAL_ENV##*/}${PURPLE}]"
-    else
-        echo ""
-    fi
-}
-
 
 # Stolen from rkirti, kirtibr@gmail.com
 extract()
@@ -257,4 +246,11 @@ function refactor() {
     rg "$1" "${@:3}"|| return
     echo -en "\n\n${BIGreen}Replace these occurances with ${BIBlue}${replacement}?${CReset}"
     proceed_yes_no && rg -l "$1" "${@:3}" | xargs perl -pi -e "s/${original}/${replacement}/g"
+}
+
+function gist() {
+    if [ $# -ne 0 ]; then
+        pbcopy < $1
+    fi
+    open 'https://gist.github.com/'
 }
