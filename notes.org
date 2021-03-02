@@ -1,0 +1,9 @@
+* Dotfiles
+
+** other considerations
+
+#+BEGIN_SRC bash :exports both
+npm install -g caniuse-cmd
+
+brew tap italolelis/homebrew-reachable &&  brew install reachable
+#+END_SRC

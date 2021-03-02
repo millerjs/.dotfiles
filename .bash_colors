@@ -10,7 +10,7 @@ export Purple='\033[0;35m'       # Purple
 export Cyan='\033[0;36m'         # Cyan
 export White='\033[0;37m'        # White
 
-export CReset='\033[0;33m'       # Reset
+export CReset='\e[0m'            # Reset
 
 # Bold
 export BBlack='\033[1;30m'       # Black

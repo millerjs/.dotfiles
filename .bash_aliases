@@ -39,7 +39,7 @@ alias e='emacsclient --server-file=$(get_emacs_daemon_name)'
 
 # git
 alias gam='f() { git commit -am "$*"; }; f'
-alias gd='cdiff -w0 -s'
+alias gd='git diff'
 alias gs='git status'
 alias gb='git branch'
 alias gl='git l'
@@ -105,4 +105,4 @@ alias httpdump="sudo tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<
 alias please='sudo'
 alias encrypt='gpg  --encrypt --recipient'
 
-alias podsw='kubectl get pods -w -lapp=benchprep-v2'
+alias pow='kubectl get pods -w | tail -n0 -f'

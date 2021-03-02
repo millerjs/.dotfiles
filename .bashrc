@@ -29,7 +29,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
+HISTSIZE=1000000
 HISTFILESIZE=2000000
 
 # check the window size after each command and, if necessary,
@@ -279,7 +279,7 @@ fi
 export HISTIGNORE="&:ls:ls:cd:g"
 export PYTHONIOENCODING=utf-8
 
-export EDITOR="ew"
+export EDITOR='emacsclient --server-file=main -nw || emacs -q -nw'
 export SVN_EDITOR="${EMACS_CLIENT_EDITOR}"
 export PAGER="less -S"
 
@@ -332,3 +332,5 @@ ulimit -n 10000 12000
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export ANSIBLE_NOCOWS=1
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"

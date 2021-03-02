@@ -229,6 +229,14 @@ imcat () {
 }
 
 
+k8s_git_log () {
+    deployment=$1
+    repo=$(git remote -v 2>/dev/null| head -n1 | awk '{print $2}' | sed 's/.*\///' | sed 's/\.git//')
+    sha=$(kubectl get deployment $repo -o=jsonpath='{$.spec.template.spec.containers[:1].image}' | cut -d':' -f2)
+    git log $sha
+}
+
+
 up () {
     if [ "$#" == 0 ]; then
         cd ../
@@ -253,4 +261,22 @@ function gist() {
         pbcopy < $1
     fi
     open 'https://gist.github.com/'
+}
+
+
+function lsp-java() {
+  PROJECT="${1}"
+  cd ~/src/eclipse.jdt.ls/
+java -Declipse.application=org.eclipse.jdt.ls.core.id1 \
+     -Dosgi.bundles.defaultStartLevel=4 \
+     -Declipse.product=org.eclipse.jdt.ls.core.product \
+     -Dlog.protocol=true \
+     -Dlog.level=ALL \
+     -noverify \
+     -Xmx1G \
+     -jar $HOME/plugins/org.eclipse.equinox.launcher_1.5.0.v20180119-0753.jar \
+     -configuration $HOME/config_mac \
+     --add-modules=ALL-SYSTEM \
+     --add-opens java.base/java.util=ALL-UNNAMED \
+     --add-opens java.base/java.lang=ALL-UNNAMED
 }

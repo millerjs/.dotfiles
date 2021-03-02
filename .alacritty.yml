@@ -780,9 +780,6 @@ key_bindings:
   - { key: X,         mods: Control,       chars: "\x18" }
   - { key: Slash,     mods: Control,       chars: "\x1f" }
 
-  # Command -> Alt
-  - { key: P,        mods: Command,       chars: "\x1bp" }
-
 
   - { key: A,         mods: Command,       chars: "\x1ba"                       }
   - { key: B,         mods: Command,       chars: "\x1bb"                       }
@@ -843,33 +840,6 @@ key_bindings:
   - { key: P,         mods: Command|Control, chars: "\x1b\x10"                       }
   - { key: N,         mods: Command|Control, chars: "\x1b\x0e"                       }
   - { key: L,         mods: Command|Control, chars: "\x1b\x0c"                       }
-  # - { key: B,         mods: Command|Control, chars: "\x1bb"                       }
-  # - { key: C,         mods: Command|Control, chars: "\x1bc"                       }
-  # - { key: D,         mods: Command|Control, chars: "\x1bd"                       }
-  # - { key: E,         mods: Command|Control, chars: "\x1be"                       }
-  # - { key: F,         mods: Command|Control, chars: "\x1bf"                       }
-  # - { key: G,         mods: Command|Control, chars: "\x1bg"                       }
-  # - { key: H,         mods: Command|Control, chars: "\x1bh"                       }
-  # - { key: I,         mods: Command|Control, chars: "\x1bi"                       }
-  # - { key: J,         mods: Command|Control, chars: "\x1bj"                       }
-  # - { key: K,         mods: Command|Control, chars: "\x1bk"                       }
-  # - { key: L,         mods: Command|Control, chars: "\x1bl"                       }
-  # - { key: M,         mods: Command|Control, chars: "\x1bm"                       }
-  # - { key: N,         mods: Command|Control, chars: "\x1bn"                       }
-  # - { key: O,         mods: Command|Control, chars: "\x1bo"                       }
-  # - { key: P,         mods: Command|Control, chars: "\x1bp"                       }
-  # - { key: Q,         mods: Command|Control, chars: "\x1bq"                       }
-  # - { key: R,         mods: Command|Control, chars: "\x1br"                       }
-  # - { key: S,         mods: Command|Control, chars: "\x1bs"                       }
-  # - { key: T,         mods: Command|Control, chars: "\x1bt"                       }
-  # - { key: U,         mods: Command|Control, chars: "\x1bu"                       }
-  # - { key: V,         mods: Command|Control, chars: "\x1bv"                       }
-  # - { key: W,         mods: Command|Control, chars: "\x1bw"                       }
-  # - { key: X,         mods: Command|Control, chars: "\x1bx"                       }
-  # - { key: Y,         mods: Command|Control, chars: "\x1by"                       }
-  # - { key: Z,         mods: Command|Control, chars: "\x1bz"                       }
-  # - { key: Space,     mods: Command|Control, chars: "\x1b "                       }
-
 
   - { key: Key1,      mods: Command,       chars: "\x1b1"                       }
   - { key: Key2,      mods: Command,       chars: "\x1b2"                       }
@@ -897,7 +867,9 @@ key_bindings:
 
   - { key: V,      mods: Alt,    action: Paste       }
 
-  - { key: Back, mods: Command,  chars: "\x1b\x08"    }
+  - { key: Up, mods: Command,    chars: "\x1b\x1b\x5b\x41"    }
+
+  - { key: Back,     mods: Command,     chars: "\x1b\x7f" }
 
 #debug:
   # Display the time it takes to redraw each frame.
